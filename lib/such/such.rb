@@ -1,9 +1,8 @@
 module Such
-  PARAMETERS = {}
-  def self.define(clss, sprclss, header='include Such::Thing')
+  def self.subclass(clss, sprclss="Gtk::#{clss}", body='include Such::Thing')
     eval <<-CODE
     class #{clss} < #{sprclss}
-      #{header}
+      #{body}
     end
     CODE
   end

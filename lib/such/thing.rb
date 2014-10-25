@@ -1,5 +1,6 @@
 module Such
   module Thing
+    PARAMETERS = {}
     def initialize(*parameters, &block)
       container, arguments, methods, signals = nil, [], {}, {}
       while parameter = parameters.shift
