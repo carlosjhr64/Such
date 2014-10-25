@@ -1,3 +1,3 @@
-module SUCH
+module Such
   VERSION = '0.0.0'
 end
