@@ -1,12 +1,17 @@
 module Such
   module Thing
     def initialize(*parameters, &block)
-      # Symbols are expected to translate to something else.
-      parameters = parameters.map{|p| PARAMETERS[p] || p }
-
       container, arguments, methods, signals = nil, [], {}, {}
       while parameter = parameters.shift
         case parameter
+        when Symbol
+          # Symbols are expected to translate to something else.
+          if PARAMETERS.has_key?(parameter)
+            v = PARAMETERS[parameter]
+            (parameter[-1]=='!')? parameters.unshift(*v) : parameters.unshift(v)
+          else
+            warn "Warning: Such::PARAMETERS[#{parameter}] not defined"
+          end
         when Array
           # Arrays are added to the Thing's arguments list.
           arguments += parameter
