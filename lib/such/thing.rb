@@ -1,6 +1,10 @@
 module Such
   module Thing
     PARAMETERS = {}
+    def self.configure(conf)
+      conf.each{|k,v| PARAMETERS[k]=v}
+    end
+
     def initialize(*parameters, &block)
       container, arguments, methods, signals = nil, [], {}, {}
       while parameter = parameters.shift
