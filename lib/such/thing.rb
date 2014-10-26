@@ -41,7 +41,13 @@ module Such
       methods.each do |mthd, args|
         args.unshift(container) if mthd==:into and container
         trace_method(mthd, args) if $VERBOSE
-        method(mthd).call(*args)
+        m = method(mthd)
+        if m.arity == 1
+          # Assume user knows arity is one and means to iterate.
+          [*args].each{|arg| m.call(arg)}
+        else
+          m.call(*args)
+        end
       end
       signals.keys.each do |signal|
         trace_signal(signal) if $VERBOSE
