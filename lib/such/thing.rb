@@ -54,6 +54,7 @@ module Such
     end
 
     def into(container, mthd=:add, *parameters)
+      raise "Need container & method" unless mthd.class==Symbol and container.respond_to?(mthd)
       container.method(mthd).call(self, *parameters)
     end
 
