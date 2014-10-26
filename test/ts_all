@@ -4,7 +4,7 @@ RUBY = 'ruby -I ./lib'
 LOG = './test/errors.log'
 
 def fn(name)
-  "./test/tc_#{name}.rb"
+  "./test/tc_#{name}"
 end
 
 def tc(name)
