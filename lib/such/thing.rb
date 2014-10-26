@@ -50,7 +50,7 @@ module Such
     end
 
     def link(signal, block)
-      signal_connect(signal){|*emits| block.call(self, signal, *emits)}
+      signal_connect(signal){|*emits| block.call(*emits)}
     end
 
     def into(container, mthd=:add, *parameters)
