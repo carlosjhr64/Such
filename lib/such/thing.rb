@@ -8,8 +8,8 @@ module Such
         when Symbol
           # Symbols are expected to translate to something else.
           if PARAMETERS.has_key?(parameter)
-            v = PARAMETERS[parameter]
-            (parameter[-1]=='!')? parameters.unshift(*v) : parameters.unshift(v)
+            p = PARAMETERS[parameter]
+            (parameter[-1]=='!')? parameters.unshift(*p) : parameters.unshift(p)
           else
             warn "Warning: Such::PARAMETERS[#{parameter}] not defined"
           end
