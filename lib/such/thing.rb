@@ -24,7 +24,7 @@ module Such
     end
 
     def self.do_parameters(parameters)
-      container, arguments, methods, signals = nil, [], {}, {}
+      container, arguments, methods, signals = nil, [], {}, []
       while parameter = parameters.shift
         case parameter
         when Symbol
@@ -39,12 +39,13 @@ module Such
           parameter.each{|k,v| methods[k]=v}
         when String
           # Typically a signal: Thing#signal_connect(signal){|*emits| block.call(*emits)}
-          signals[parameter] = true
+          signals.push(parameter)
         else
           # Assume it's a container
           container = parameter
         end
       end
+      signals.uniq!
       return container, arguments, methods, signals
     end
 
@@ -83,7 +84,7 @@ module Such
     end
 
     def self.do_links(obj, signals, block)
-      signals.keys.each do |signal|
+      signals.each do |signal|
         Thing.trace_signal(obj, signal) if $VERBOSE
         obj.signal_connect(signal){|*emits| block.call(*emits)}
       end
