@@ -48,7 +48,7 @@ module Such
       return container, arguments, methods, signals
     end
 
-    def self.into(obj, container, mthd=:add, *args)
+    def self.into(obj, container=nil, mthd=:add, *args)
       if container
         unless mthd.class==Symbol and container.respond_to?(mthd)
           raise "Need container & method. Got #{container.class}##{mthd}(#{obj.class}...)"
@@ -60,14 +60,16 @@ module Such
       end
     end
 
-    def self.do_method(obj, mthd, args)
+    def self.do_method(obj, mthd, *args)
       Thing.trace_method(obj, mthd, args) if $VERBOSE
       m = obj.method(mthd)
-      if m.arity == 1
-        # Assume user knows arity is one and means to iterate.
-        [*args].each{|arg| m.call(arg)}
-      else
+      begin
         m.call(*args)
+      rescue ArgumentError
+        # Assume user meant to iterate. Note that the heuristic is not perfect.
+        $stderr.puts "# Iterated Method #{mthd} ^^^" if $VERBOSE
+        [*args].each{|arg| m.call(*arg)}
+        warn "Warning: Iterated method's arity not one." unless m.arity == 1
       end
     end
 
@@ -76,7 +78,7 @@ module Such
       methods[:into]=[] if container and !methods.has_key?(:into)
       methods.each do |mthd, args|
         (mthd==:into)? Thing.into(obj, container, *args) :
-                       Thing.do_method(obj, mthd, args)
+                       Thing.do_method(obj, mthd, *args)
       end
     end
 
