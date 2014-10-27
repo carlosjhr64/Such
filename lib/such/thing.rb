@@ -37,18 +37,27 @@ module Such
 
       super(*arguments)
 
+      # If user does not specify how to add to container, assume default way.
       methods[:into]=[] if container and !methods.has_key?(:into)
       methods.each do |mthd, args|
-        args.unshift(container) if mthd==:into and container
         trace_method(mthd, args) if $VERBOSE
-        m = method(mthd)
-        if m.arity == 1
-          # Assume user knows arity is one and means to iterate.
-          [*args].each{|arg| m.call(arg)}
+        if mthd==:into
+          if container
+            into(container, *args)
+          else
+            warn "Warning: Container for #{self.class} not given."
+          end
         else
-          m.call(*args)
+          m = method(mthd)
+          if m.arity == 1
+            # Assume user knows arity is one and means to iterate.
+            [*args].each{|arg| m.call(arg)}
+          else
+            m.call(*args)
+          end
         end
       end
+
       signals.keys.each do |signal|
         trace_signal(signal) if $VERBOSE
         link(signal, block)
