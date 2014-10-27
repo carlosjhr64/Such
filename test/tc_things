@@ -34,8 +34,8 @@ end
 
 class TestThings < Test::Unit::TestCase
   def test_list
-    assert_equal(Such::Things.list(A::X).sort, ['X1','X2','X3'])
-    assert_equal(Such::Things.list.sort, ['A','B','C'])
+    assert_equal(Such::Things.list(A::X).sort{|a,b| a.name<=>b.name}, [A::X1,A::X2,A::X3])
+    assert_equal(Such::Things.list.sort{|a,b| a.name<=>b.name}, [Gtk::A,Gtk::B,Gtk::C])
   end
 
   def test_gtk_widget
