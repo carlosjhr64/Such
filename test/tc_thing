@@ -147,9 +147,15 @@ class TestThing < Test::Unit::TestCase
       assert_equal([:A,:a,'a','b','c'], x)
 
       x = ['b','c']
-      out = TestThing.capture_stderr{ Such::Thing.do_symbol(:k!, x) }
+      out = TestThing.capture_stderr{ Such::Thing.do_symbol(:k, x) }
       assert_match(/^Warning:/, out)
       assert_equal(['b','c'], x)
+
+      # When :symbol! is not set, it does *[:SYMBOL, :symbol].
+      x = ['b','c']
+      out = TestThing.capture_stderr{ Such::Thing.do_symbol(:b!, x) }
+      assert_equal('', out)
+      assert_equal([:B,:b,'b','c'], x)
 
       p.clear
     end

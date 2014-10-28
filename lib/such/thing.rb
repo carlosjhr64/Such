@@ -19,7 +19,13 @@ module Such
         p = PARAMETERS[parameter]
         (parameter[-1]=='!')? parameters.unshift(*p) : parameters.unshift(p)
       else
-        warn "Warning: Such::PARAMETERS[#{parameter}] not defined"
+        if parameter[-1]=='!'
+          p = parameter[0..-2]
+          parameters.unshift(p.downcase.to_sym)
+          parameters.unshift(p.upcase.to_sym)
+        else
+          warn "Warning: Such::PARAMETERS[#{parameter}] not defined"
+        end
       end
     end
 
