@@ -193,6 +193,13 @@ class TestThing < Test::Unit::TestCase
     end
   end
 
+  def test_which_method
+    assert_nothing_raised() do
+      mthd = Such::Thing.which_method([], [:nope, :push, :wut])
+      assert_equal(:push, mthd)
+    end
+  end
+
   def test_into
     # Via class method
     assert_nothing_raised() do
