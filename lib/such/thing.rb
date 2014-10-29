@@ -1,5 +1,6 @@
 module Such
   module Thing
+    INTOS = [:set_submenu, :pack_start, :append, :add]
 
     PARAMETERS = {}
     def self.configure(conf)
@@ -55,8 +56,14 @@ module Such
       return container, arguments, methods, signals
     end
 
-    def self.into(obj, container=nil, mthd=:add, *args)
+    def self.which_method(container, methods=INTOS)
+      methods.each{|mthd| return mthd if container.respond_to?(mthd)}
+      raise "Don't know how to put into #{container.class}."
+    end
+
+    def self.into(obj, container=nil, mthd=nil, *args)
       if container
+        mthd=Thing.which_method(container) unless mthd
         unless mthd.class==Symbol and container.respond_to?(mthd)
           raise "Need container & method. Got #{container.class}##{mthd}(#{obj.class}...)"
         end
@@ -82,7 +89,7 @@ module Such
 
     def self.do_methods(obj, methods, container)
       # If user does not specify how to add to container, assume default way.
-      methods[:into]=[] if container and !methods.has_key?(:into)
+      methods[:into]=Thing.which_method(container) if container and !methods.has_key?(:into)
       methods.each do |mthd, args|
         (mthd==:into)? Thing.into(obj, container, *args) :
                        Thing.do_method(obj, mthd, *args)

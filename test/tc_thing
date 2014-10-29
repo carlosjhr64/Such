@@ -4,6 +4,8 @@ require 'test/unit'
 require 'such/thing'
 # Clear PARAMETERS of any defaults
 Such::Thing::PARAMETERS.clear
+# Set INTOS to use :pack or :add
+Such::Thing::INTOS.replace [:pack, :add]
 
 ###########################
 ### Main Parent Classes ###
@@ -62,18 +64,31 @@ end
 #########################
 
 # arity 0
-class SubClass < ParentClass
+class SuchClass < ParentClass
   include Such::Thing
 end
 
 # arity 1
-class OneSubClass < OneClass
+class OneSuchClass < OneClass
   include Such::Thing
 end
 
 # arity -1
-class ManySubClass < ManyClass
+class ManySuchClass < ManyClass
   include Such::Thing
+end
+
+# arity 0 pack
+class PackSuchClass < ParentClass
+  include Such::Thing
+  attr_reader :packed
+  def initialize(*parameters)
+    super(*parameters)
+    @packed = []
+  end
+  def pack(p)
+    @packed.push(p)
+  end
 end
 
 class TestThing < Test::Unit::TestCase
@@ -181,8 +196,11 @@ class TestThing < Test::Unit::TestCase
   def test_into
     # Via class method
     assert_nothing_raised() do
-      container = SubClass.new
-      item = SubClass.new
+      ######################
+      ### container :add ###
+      ######################
+      container = SuchClass.new
+      item = SuchClass.new
       # container is empty
       assert_equal([], container.added)
       out = TestThing.capture_stderr{ Such::Thing.into(item, container) }
@@ -192,12 +210,25 @@ class TestThing < Test::Unit::TestCase
       # just gives warning if no container is given.
       out = TestThing.capture_stderr{ Such::Thing.into(item) }
       assert_match(/^Warning:/, out)
+      #######################
+      ### container :pack ###
+      #######################
+      container = PackSuchClass.new
+      item = SuchClass.new
+      # container is empty
+      assert_equal([], container.added)
+      assert_equal([], container.packed)
+      out = TestThing.capture_stderr{ Such::Thing.into(item, container) }
+      assert_equal('', out)
+      # container now has item in packed
+      assert_equal([], container.added)
+      assert_equal([item], container.packed)
     end
     # Via new
     assert_nothing_raised() do
-      container = SubClass.new
+      container = SuchClass.new
       # item should put itself into container
-      item = SubClass.new container
+      item = SuchClass.new container
       assert_equal([item], container.added)
     end
   end
@@ -224,8 +255,8 @@ class TestThing < Test::Unit::TestCase
 
   def test_do_methods
     assert_nothing_raised() do
-      container = SubClass.new
-      item = SubClass.new
+      container = SuchClass.new
+      item = SuchClass.new
       Such::Thing.do_methods(item, {does:'OK'}, container)
       assert_equal(['OK'], item.done)
       assert_equal([item], container.added)
@@ -234,7 +265,7 @@ class TestThing < Test::Unit::TestCase
 
   def test_do_links
     assert_nothing_raised() do
-      item = SubClass.new
+      item = SuchClass.new
       wontcallanyways = true
       Such::Thing.do_links(item, ['a','b','c'], wontcallanyways)
       assert_equal(['a','b','c'], item.signals)
@@ -245,48 +276,48 @@ class TestThing < Test::Unit::TestCase
     # Nothing raised with correct arity.
     assert_nothing_raised() do
       # Blank takes nothing
-      SubClass.new
-      SubClass.new []
+      SuchClass.new
+      SuchClass.new []
       # One takes exactly one
-      OneSubClass.new [1]
+      OneSuchClass.new [1]
       # Many takes any
-      ManySubClass.new
-      ManySubClass.new []
-      ManySubClass.new [1]
-      ManySubClass.new [1,2,3]
+      ManySuchClass.new
+      ManySuchClass.new []
+      ManySuchClass.new [1]
+      ManySuchClass.new [1,2,3]
     end
 
     # ArgumentError raised with incorrect arity
     assert_raise(ArgumentError) do
-      SubClass.new [1]
+      SuchClass.new [1]
     end
     assert_raise(ArgumentError) do
-      OneSubClass.new
+      OneSuchClass.new
     end
     assert_raise(ArgumentError) do
-      OneSubClass.new []
+      OneSuchClass.new []
     end
     assert_raise(ArgumentError) do
-      OneSubClass.new [1,2]
+      OneSuchClass.new [1,2]
     end
   end
 
   def test_initialize
     assert_nothing_raised() do
-      blank = SubClass.new
+      blank = SuchClass.new
       assert_equal(blank.done, [])
       blank.does(1); blank.does(2); blank.does(4)
       assert_equal(blank.done, [1,2,4])
     end
     assert_nothing_raised() do
-      one = OneSubClass.new ['A']
+      one = OneSuchClass.new ['A']
       assert_equal(one.v, 'A')
     end
     assert_nothing_raised() do
-      many0 = ManySubClass.new
-      many1 = ManySubClass.new ['A']
-      many3 = ManySubClass.new ['x','y','z']
-      many  = ManySubClass.new ['A'],['x','y','z']
+      many0 = ManySuchClass.new
+      many1 = ManySuchClass.new ['A']
+      many3 = ManySuchClass.new ['x','y','z']
+      many  = ManySuchClass.new ['A'],['x','y','z']
       assert_equal(many0.v, [])
       assert_equal(many1.v, ['A'])
       assert_equal(many3.v, ['x','y','z'])
@@ -296,9 +327,9 @@ class TestThing < Test::Unit::TestCase
 
   def test_methods
     assert_nothing_raised() do
-      blank = SubClass.new does: 1
-      one   = OneSubClass.new ['A'], does: 2
-      many  = ManySubClass.new({does: 3}, ['x','y','z'])
+      blank = SuchClass.new does: 1
+      one   = OneSuchClass.new ['A'], does: 2
+      many  = ManySuchClass.new({does: 3}, ['x','y','z'])
 
       assert_equal([1], blank.done)
 
@@ -309,7 +340,7 @@ class TestThing < Test::Unit::TestCase
       assert_equal(['x','y','z'], many.v)
 
       # Quick overide test...
-      blank2 = SubClass.new({does: 1}, {does: 'a'})
+      blank2 = SuchClass.new({does: 1}, {does: 'a'})
       # Only does('a') happens:
       assert_equal(['a'], blank2.done)
     end
@@ -317,8 +348,8 @@ class TestThing < Test::Unit::TestCase
 
   def test_link
     assert_nothing_raised() do
-      blank = SubClass.new 'event'
-      blank2 = SubClass.new('event1', 'event2'){ true }
+      blank = SuchClass.new 'event'
+      blank2 = SuchClass.new('event1', 'event2'){ true }
       assert_equal(['event'], blank.signals)
       assert_equal(['event1', 'event2'], blank2.signals)
     end
@@ -330,7 +361,7 @@ class TestThing < Test::Unit::TestCase
       p[:A] = [1,2,3]
       p[:a] = {does: 'X'}
       p[:a!] = [:A,:a,'x']
-      many = ManySubClass.new(:a!){ true }
+      many = ManySuchClass.new(:a!){ true }
       assert_equal([1,2,3], many.v)
       assert_equal(['X'], many.done)
       assert_equal(['x'], many.signals)
