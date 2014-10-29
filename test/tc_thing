@@ -270,6 +270,19 @@ class TestThing < Test::Unit::TestCase
     end
   end
 
+  def test_do_config
+    assert_nothing_raised() do
+      p = Such::Thing::PARAMETERS
+      p.clear
+      p[:OK] = {does:['OK','I','get','it']}
+      obj = SuchClass.new
+      Such::Thing.do_config(obj, :OK, 'Ok'){true}
+      assert_equal(['OK','I','get','it'], obj.done)
+      assert_equal(['Ok'], obj.signals)
+      p.clear
+    end
+  end
+
   def test_do_links
     assert_nothing_raised() do
       item = SuchClass.new

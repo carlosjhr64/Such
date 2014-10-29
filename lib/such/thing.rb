@@ -87,7 +87,7 @@ module Such
       end
     end
 
-    def self.do_methods(obj, methods, container)
+    def self.do_methods(obj, methods, container=nil)
       # If user does not specify how to add to container, assume default way.
       methods[:into]=Thing.which_method(container) if container and !methods.has_key?(:into)
       methods.each do |mthd, args|
@@ -101,6 +101,12 @@ module Such
         Thing.trace_signal(obj, signal) if $VERBOSE
         obj.signal_connect(signal){|*emits| block.call(*emits)}
       end
+    end
+
+    def self.do_config(obj, *parameters, &block)
+      container, arguments, methods, signals = Thing.do_parameters(parameters)
+      Thing.do_methods(obj, methods, container)
+      Thing.do_links(obj, signals, block)
     end
 
     def initialize(*parameters, &block)
