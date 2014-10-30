@@ -1,6 +1,6 @@
 module Such
   module Thing
-    INTOS = [:set_submenu, :pack_start, :append, :add]
+    INTOS = [:set_submenu, :pack_start, :append, :add] # TODO:GTK!?
 
     PARAMETERS = {}
     def self.configure(conf)
@@ -97,9 +97,15 @@ module Such
     end
 
     def self.do_links(obj, signals, block)
-      signals.each do |signal|
-        Thing.trace_signal(obj, signal) if $VERBOSE
-        obj.signal_connect(signal){|*emits| block.call(*emits)}
+      none = (signals.length==0)
+      if block
+        signals.push('clicked') if block and none # TODO: GTK!?
+        signals.each do |signal|
+          Thing.trace_signal(obj, signal) if $VERBOSE
+          obj.signal_connect(signal){|*emits| block.call(*emits)}
+        end
+      elsif not none
+        warn "Warning: No block given for #{signals.join(',')} on #{obj.class}."
       end
     end
 

@@ -368,10 +368,13 @@ class TestThing < Test::Unit::TestCase
 
   def test_link
     assert_nothing_raised() do
-      blank = SuchClass.new 'event'
-      blank2 = SuchClass.new('event1', 'event2'){ true }
+      blank = SuchClass.new('event'){true}
+      blank2 = SuchClass.new('event1', 'event2'){true}
       assert_equal(['event'], blank.signals)
       assert_equal(['event1', 'event2'], blank2.signals)
+      # Warns when no block is given...
+      out = TestThing.capture_stderr{ SuchClass.new('event') }
+      assert_match(/^Warning:/, out)
     end
   end
 
