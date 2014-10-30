@@ -274,11 +274,18 @@ class TestThing < Test::Unit::TestCase
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
       p.clear
+
       p[:OK] = {does:['OK','I','get','it']}
       obj = SuchClass.new
-      Such::Thing.do_config(obj, :OK, 'Ok'){true}
+      out = TestThing.capture_stderr{ Such::Thing.do_config(obj, :OK, 'Ok'){true} }
+      assert_equal('', out)
       assert_equal(['OK','I','get','it'], obj.done)
       assert_equal(['Ok'], obj.signals)
+
+      # Arguments are not used int do_config, gives warning.
+      out = TestThing.capture_stderr{ Such::Thing.do_config(obj, [1,2,3]) }
+      assert_match(/^Warning:/, out)
+
       p.clear
     end
   end

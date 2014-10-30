@@ -113,6 +113,7 @@ module Such
       container, arguments, methods, signals = Thing.do_parameters(parameters)
       Thing.do_methods(obj, methods, container)
       Thing.do_links(obj, signals, block)
+      warn "Warning: arguments not used in do_config(#{obj.class}...)." if arguments.length > 0
     end
 
     def initialize(*parameters, &block)
