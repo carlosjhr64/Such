@@ -79,7 +79,7 @@ module Such
       m = obj.method(mthd)
       begin
         m.call(*args)
-      rescue ArgumentError
+      rescue ArgumentError, TypeError
         # Assume user meant to iterate. Note that the heuristic is not perfect.
         $stderr.puts "# Iterated Method #{mthd} ^^^" if $VERBOSE
         [*args].each{|arg| m.call(*arg)}
