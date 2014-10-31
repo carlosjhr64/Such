@@ -83,7 +83,9 @@ module Such
         # Assume user meant to iterate. Note that the heuristic is not perfect.
         $stderr.puts "# Iterated Method #{mthd} ^^^" if $VERBOSE
         [*args].each{|arg| m.call(*arg)}
-        warn "Warning: Iterated method's arity not one." unless m.arity == 1
+        if $!.class == ArgumentError and not m.arity == 1
+          warn "Warning: Iterated method's arity not one."
+        end
       end
     end
 
