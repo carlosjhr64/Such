@@ -1,0 +1,37 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+GRAY = Gdk::RGBA.new(0.2, 0.2, 0.2, 1)
+Thing.configure(
+  window: {
+    override_background_color: [:normal, GRAY],
+    set_title: 'Simple menubar',
+    set_default_size: [300,200],
+    set_window_position: :center,
+  },
+
+  VBOX: [:vertical,2],
+
+  pack_start: {into: [:pack_start, expand:false, fill:false, padding:0]},
+  append: {into: [:append]},
+  set_submenu: {into: [:set_submenu]},
+
+  NOTHING: ['Nothing'],
+  FILE: ['File'],
+  EXIT: ['Exit'],
+)
+
+window = Window.new :window, 'destroy' do Gtk.main_quit end
+  vbox = Box.new window, :VBOX
+    mb = MenuBar.new vbox, :pack_start
+      filem = MenuItem.new mb, :append, :FILE
+        filemenu = Menu.new filem, :set_submenu
+          _exit = MenuItem.new filemenu, :append, :EXIT, 'activate' do Gtk.main_quit end
+          _nothing = MenuItem.new filemenu, :append, :NOTHING
+      MenuItem.new mb, :append, :NOTHING
+
+window.show_all
+
+Gtk.main

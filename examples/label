@@ -1,0 +1,39 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+LYRICS =  <<EOT
+Meet you downstairs in the bar and heard
+your rolled up sleeves and you skull t-shirt
+You say why diyou do it with him today?
+and sniff me out like I was Tanqueray
+
+cause you're my fella, my guy
+hand me your stella and fly
+by the time I'm out the door
+you tear men down like Roger Moore
+
+I cheated myself
+like I knew I would
+I told ya, I was trouble
+you know tat I'm no good
+EOT
+
+Thing.configure(
+  window: {
+    set_title: "You know I'm no Good",
+    set_border_width: 10,
+    set_default_size: [250, 200],
+    set_window_position: :center,
+  },
+  window!: [:window, 'destroy'],
+
+  LABEL: [LYRICS],
+)
+
+window = Window.new :window! do Gtk.main_quit end
+label = Label.new window, :LABEL
+window.show_all
+
+Gtk.main

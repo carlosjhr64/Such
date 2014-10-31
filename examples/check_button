@@ -1,0 +1,32 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_default_size: [300, 200],
+    set_window_position: :center,
+    set_title: 'Gtk::CheckButton',
+  },
+  window!: [:window, 'destroy'],
+
+  CB: ['Show title'],
+  cb: {set_active: true, set_can_focus: false, into: [:put,50,50]},
+  cb!: [:CB, :cb, 'clicked'],
+)
+
+def on_clicked sender, window
+  if sender.active?
+    window.set_title 'Gtk::CheckButton'
+  else
+    window.set_title ''
+  end
+end
+
+window = Window.new :window! do Gtk.main_quit end
+fixed = Fixed.new window
+CheckButton.new fixed, :cb! do |sender| on_clicked(sender, window) end
+window.show_all
+
+Gtk.main

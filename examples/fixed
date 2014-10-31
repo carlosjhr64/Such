@@ -1,0 +1,28 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+gray = Gdk::RGBA::new(0.2, 0.2, 0.2, 1)
+#blushing.gif  insulting-dog.gif  laughing-dog.gif  shocked-panda-dog.gif  shouting-panda-dog.gif
+bardejov = Gdk::Pixbuf.new :file => "images/grumpy1.png"
+rotunda  = Gdk::Pixbuf.new :file => "images/grumpy2.png"
+mincol   = Gdk::Pixbuf.new :file => "images/grumpy3.png"
+
+Thing.configure(
+  window: {
+    override_background_color: [:normal, gray],
+    set_title: 'Fixed',
+    set_default_size: [300,280],
+    set_window_position: :center,
+  },
+)
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  fixed = Fixed.new window
+    image1 = Image.new fixed, [pixbuf: bardejov], {into: [:put, 20, 20 ]}
+    image2 = Image.new fixed, [pixbuf: rotunda],  {into: [:put, 40, 160]}
+    image3 = Image.new fixed, [pixbuf: mincol],   {into: [:put, 170, 50]}
+window.show_all
+
+Gtk.main

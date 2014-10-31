@@ -1,0 +1,43 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_border_width: 10,
+    set_title: 'Gtk::ColorSelectingDialog',
+    set_default_size: [350,150],
+    set_window_position: :center,
+  },
+
+  LABEL: ['The only victory over love is fligh.'],
+  label: {into: [:put, 30, 90],},
+  label!: [:LABEL, :label],
+
+  BUTTON: [label: 'Select colour'],
+  button: {
+    into: [:put, 100, 30],
+  },
+  button!: [:BUTTON, :button],
+
+  CDIA:  [title: 'Select colour'],
+)
+
+def on_clicked(label)
+  cdia = ColorSelectionDialog.new :CDIA
+  response = cdia.run
+  if response == Gtk::ResponseType::OK
+    colorsel = cdia.color_selection
+    col = colorsel.current_rgba
+    label.override_color :normal, col
+    end
+  cdia.destroy
+end
+
+window = Window.new(:window, 'destroy'){ Gtk.main_quit }
+  fix = Fixed.new window
+    label = Label.new fix, :label!
+    Button.new(fix, :button!, 'clicked'){ on_clicked(label) }
+window.show_all
+Gtk.main

@@ -1,0 +1,36 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    override_background_color: [:normal, Gdk::RGBA.new(0.2, 0.2, 0.2, 1)],
+    set_title: 'Submenu',
+    set_default_size: [350, 250],
+    set_window_position: :center,
+  },
+  VBOX: [:vertical, 2],
+  mb: {into: [:pack_start, expand:false, fill:false]},
+  FILEM: ['File'],
+  IMPORTM: ['Import'],
+  INEWS: ['Import news feed...'],
+  IBOOKMARKS: ['Import bookmarks...'],
+  IMAIL: ['Import mail...'],
+  EXIT: ['Exit'],
+)
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+vbox = Box.new window, :VBOX
+mb = MenuBar.new vbox, :mb
+filem = MenuItem.new mb, :FILEM
+filemenu = Menu.new filem
+importm = MenuItem.new filemenu, :IMPORTM
+imenu = Menu.new importm
+MenuItem.new imenu, :INEWS
+MenuItem.new imenu, :IBOOKMARKS
+MenuItem.new imenu, :IMAIL
+MenuItem.new(filemenu, :EXIT, 'activate'){Gtk.main_quit}
+window.show_all
+
+Gtk.main

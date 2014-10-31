@@ -1,0 +1,34 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_title: 'Toolbar',
+    set_default_size: [300, 200],
+    set_window_position: :center,
+  },
+
+  toolbar: {
+    set_toolbar_style: Gtk::Toolbar::Style::ICONS,
+    into: [:pack_start, expand:false,fill:false,padding:0],
+  },
+
+  newtb!:  [[:stock_id => Gtk::Stock::NEW],  {into: [:insert,0]}],
+  opentb!: [[:stock_id => Gtk::Stock::OPEN], {into: [:insert,1]}],
+  savetb!: [[:stock_id => Gtk::Stock::SAVE], {into: [:insert,2]}],
+  sep:                                       {into: [:insert,3]},
+  quittb!: [[:stock_id => Gtk::Stock::QUIT], {into: [:insert,4]}],
+)
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  vbox = Box.new window, [:vertical, 2]
+    toolbar = Toolbar.new vbox, :toolbar
+      newtb = ToolButton.new toolbar, :newtb!
+      opentb = ToolButton.new toolbar, :opentb!
+      savetb = ToolButton.new toolbar, :savetb!
+      sep = SeparatorToolItem.new toolbar, :sep
+      quittb = ToolButton.new toolbar, :quittb!, 'clicked' do Gtk.main_quit end
+window.show_all
+Gtk.main

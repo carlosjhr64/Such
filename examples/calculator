@@ -1,0 +1,47 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  tight: {into: [:pack_start,expand:false,fill:false,padding:0]},
+
+  window: {
+    set_title: 'Calculator',
+    set_default_size: [300,250],
+    set_window_position: :center,
+  },
+
+  mb: :tight,
+
+  FILE: ['File'],
+
+  VBOX: [:vertical, 2],
+
+  grid: {
+    set_property: [['row-homogeneous', true],['column-homogeneous', true]],
+    into: [:pack_start,expand:true,fill:true,padding:0],
+  },
+
+)
+
+LABEL = [
+  'Cls',  'Bck',  '',     'Close',
+  '7',    '8',    '9',    '/',
+  '4',    '5',    '6',    '*',
+  '1',    '2',    '3',    '=',
+]
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  vbox = Box.new window, :VBOX
+    mb = MenuBar.new vbox, :mb
+      file = MenuItem.new mb, :FILE
+        filemenu = Menu.new file
+    Entry.new vbox, :tight
+    grid = Grid.new vbox, :grid
+    0.upto(LABEL.length-1) do |i|
+      grid.attach Gtk::Button.new(:label => LABEL[i]), i%4, i/4, 1,1
+    end
+window.show_all
+
+Gtk.main

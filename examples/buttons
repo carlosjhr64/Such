@@ -1,0 +1,39 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  B0000: [0,0,0,0],
+  B1000: [1,0,0,0],
+  VBOX:  [:vertical,0],
+  HBOX:  [:horizontal,5],
+  OK:    [label: 'OK'],
+  CLOSE: [label: 'Close'],
+
+  space:  {into: [:pack_start,expand:true]},
+  halign: {into: [:pack_start,expand:false,fill:false,padding:5]},
+  button: {set_size_request: [70,30]},
+  window: {
+    set_border_width: 10,
+    set_title: 'Buttons',
+    set_default_size: [260,150],
+    set_window_position: :center,
+  },
+
+  space!:  [:B0000, :space],
+  halign!: [:B1000, :halign],
+  ok!:     [:OK, :button],
+  close!:  [:CLOSE, :button],
+)
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  vbox = Box.new window, :VBOX
+    Alignment.new vbox, :space!
+    halign = Alignment.new vbox, :halign!
+      hbox = Box.new halign, :HBOX
+        Button.new(hbox, :ok!){puts 'OK Pressed!'}
+        Button.new(hbox, :close!){puts 'Close pressed!'}
+window.show_all
+
+Gtk.main

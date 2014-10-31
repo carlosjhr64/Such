@@ -1,0 +1,84 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_title: 'Messages',
+    set_default_size: [300,100],
+    set_window_position: :center,
+  },
+
+  TABLE: [2,2,true],
+
+  INFO: [label: 'Information'],
+  info: {into: [:attach,0,1,0,1]},
+  INFO_DIALOG: [
+    parent:       @window,
+    flags:        :destroy_with_parent,
+    type:         :info,
+    buttons_type: :close,
+    message:      'Download completed',
+  ],
+
+  WARN: [label: 'Warning'],
+  warn: {into: [:attach,1,2,0,1]},
+  WARN_DIALOG: [
+    parent: @window,
+    flags: :destroy_with_parent,
+    type: :warning,
+    buttons_type: :close,
+    message: 'Unallowed operation'
+  ],
+
+  QUES: [label: 'Question'],
+  ques: {into: [:attach,0,1,1,2]},
+  QUES_DIALOG: [
+    parent: @window,
+    flags: :destroy_with_parent,
+    type: :question,
+    buttons_type: :close,
+    message: 'Are you sure to quit?',
+  ],
+
+  ERRO: [label: 'Error'],
+  erro: {into: [:attach,1,2,1,2]},
+  ERRO_DIALOG: [
+    parent: @window,
+    flags: :modal,
+    type: :error,
+    buttons_type: :close,
+    message: 'Error loading file',
+  ],
+)
+
+def on_info
+  md = MessageDialog.new :INFO_DIALOG
+  md.run; md.destroy
+end
+
+def on_erro
+  md = MessageDialog.new :ERRO_DIALOG
+  md.run; md.destroy
+end
+
+def on_ques
+  md = MessageDialog.new :QUES_DIALOG
+  md.run; md.destroy
+end
+
+def on_warn
+  md = MessageDialog.new :WARN_DIALOG
+  md.run; md.destroy
+end
+
+@window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  table = Table.new @window, :TABLE
+    info = Button.new(table, :info!){on_info}
+    warn = Button.new(table, :warn!){on_warn}
+    ques = Button.new(table, :ques!){on_ques}
+    erro = Button.new(table, :erro!){on_erro}
+@window.show_all
+
+Gtk.main

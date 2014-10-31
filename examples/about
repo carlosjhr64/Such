@@ -1,0 +1,42 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  BUTTON:  [label: 'About'],
+  button:  {set_size_request: [80, 30], into: [:put, 20, 20]},
+
+  window:  {
+             set_title: 'About Dialog',
+             set_default_size: [300,150],
+             set_window_position: :center
+           },
+
+  PIXBUF: [:file => 'images/grumpy1.png'],
+  about:   {
+             set_program_name: 'Battery',
+             set_version: '0.1',
+             set_copyright: '(c) Johny Dowy',
+             set_comments: 'Batter is a simple tool for battery checking',
+             set_website: 'http://www.zetcode.com',
+           },
+)
+
+def on_clicked
+  about = AboutDialog.new :about
+  begin
+    logo = Gdk::Pixbuf.new(*Thing::PARAMETERS[:PIXBUF])
+    about.set_logo logo
+  rescue IOError
+    warn 'cannot load image' if $VERBOSE
+  end
+  about.run
+  about.destroy
+end
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  fix = Fixed.new window
+    Button.new(fix, :button!){on_clicked}
+window.show_all
+Gtk.main

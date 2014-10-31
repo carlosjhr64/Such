@@ -1,0 +1,55 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+def tool(id, n)
+  [[stock_id: id], {into: [:insert,n]}]
+end
+
+Thing.configure(
+  window: {
+    set_default_size: [300,200],
+    set_window_position: :center,
+    set_title: 'Undo/Redo',
+  },
+
+  VBOX: [:vertical, 2],
+
+  toolbar: {
+    set_toolbar_style: Gtk::Toolbar::Style::ICONS
+    into: [:pack_start,expand:false,fill:false,padding:0],
+  },
+
+  undo!: tool(Gtk::Stock::UNDO, 0),
+  redo!: tool(Gtk::Stock::REDO, 1),
+  sep: {into: [:insert,2]},
+  quit!: tool(Gtk::Stock::QUIT, 3)
+)
+
+def on_undo
+  @count -= 1
+  if @count <= 0
+    @undo.set_sensitive false
+    @redo.set_sensitive true
+  end
+end
+
+def on_redo
+  @count += 1
+  if @count >= 5
+    @redo.set_sensitive false
+    @undo.set_sensitive true
+  end
+end
+
+@count = 2
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  vbox = Box.new window, :VBOX
+    toolbar = Toolbar.new vbox, :toolbar, :tight
+      @undo = ToolButton.new(toolbar, :undo!){on_undo}
+      @redo = ToolButton.new(toolbar, :redo!){on_redo}
+      SeparatorToolItem.new toolbar, :sep
+      ToolButton.new(toolbar, :quit!){Gtk.main_quit}
+window.show_all
+Gtk.main

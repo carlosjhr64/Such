@@ -1,0 +1,97 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_title: 'Burning',
+    set_size_request: [350,200],
+    set_window_position: :center,
+  },
+
+  VBOX: [:vertical,2],
+
+  SCALE: [:horizontal],
+  scale: {
+    set_range: [0,750],
+    set_digits: 0,
+    set_size_request: [160,35],
+    set_value: 0,
+    into: [:put,50,50],
+  },
+
+  burning: {
+    set_size_request: [1,30],
+    into: [:pack_start,expand:false,fill:false,padding:0],
+  },
+
+  cairo_context: {
+    set_line_width: 0.8,
+    select_font_face: ['Courier', Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL],
+    set_font_size: 11,
+  },
+)
+
+PINK   = [1.0, 0.68, 0.68]
+YELLOW = [1.0, 1.0, 0.72]
+GRAY   = [0.35, 0.31, 0.24]
+NUM    = ['75', '150', '225', '300', '375', '450', '525', '600', '675']
+
+def paint(cr)
+  cr.clip
+  cr.paint
+  cr.reset_clip
+end
+
+def rectangle(cr, a, b, color)
+  cr.set_source_rgb(*color)
+  cr.rectangle a, 0, b, 30
+  paint(cr)
+end
+
+def yellow(cr, w)
+  rectangle(cr, 0, w, YELLOW)
+end
+
+def pink(cr, till, full)
+  rectangle(cr, full, till-full, PINK)
+end
+
+def on_draw
+  cr = @burning.window.create_cairo_context
+  Thing.do_config(cr, :cairo_context)
+
+  width = @burning.allocation.width
+  cur_width = @scale.value
+  step = (width/10.0).round
+  till = (width/750.0)*cur_width
+  full = (width/750.0)*700
+
+  if cur_width >= 700
+    yellow(cr, full); pink(cr, till, full)
+  else
+    yellow(cr, till)
+  end
+
+  cr.set_source_rgb(*GRAY)
+
+  for i in 1..NUM.length
+    cr.move_to i*step, 0
+    cr.line_to i*step, 5
+    cr.stroke
+
+    te = cr.text_extents NUM[i-1]
+    cr.move_to i*step-te.width/2, 15
+    cr.text_path NUM[i-1]
+    cr.stroke
+  end
+end
+
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  vbox = Box.new window, :VBOX
+    fix = Fixed.new vbox
+      @scale = Scale.new(fix, :scale!, 'value-changed'){@burning.queue_draw}
+    @burning = DrawingArea.new(vbox, :burning, 'draw'){on_draw}
+window.show_all
+Gtk.main

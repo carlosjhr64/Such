@@ -1,0 +1,35 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_title: 'Gtk::ComboBoxText',
+    set_default_size: [300, 200],
+    set_window_position: :center,
+  },
+  window!: [:window, 'destroy'],
+
+  LABEL: ['-'],
+  label: {into: [:put,50,140]},
+  label!: [:LABEL, :label],
+
+  cb: {
+    into: [:put,50,30],
+    append_text: ['Xubuntu', 'Madriva', 'RedHat', 'Gentoo', 'Arch'],
+  },
+  cb!: [:cb, 'changed'],
+)
+
+def on_changed sender, event, label
+  label.set_label sender.active_text
+end
+
+window = Window.new :window! do Gtk.main_quit end
+fixed = Fixed.new window
+label = Label.new fixed, :label!
+cb = ComboBoxText.new fixed, :cb! do |sender, event| on_changed(sender, event, label) end
+window.show_all
+
+Gtk.main

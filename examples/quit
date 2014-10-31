@@ -1,0 +1,24 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window:  {
+    set_title:           'Quit Button',
+    set_default_size:    [300,200],
+    set_window_position: :center
+  },
+  window!: [:window, 'destroy'],
+
+  BUTTON:  [label: 'Quit'],
+  button:  {set_size_request: [80,35], into: [:put,50,50]},
+  button!: [:BUTTON, :button, 'clicked'],
+)
+
+window = Window.new :window! do Gtk.main_quit end
+fixed  = Fixed.new window
+button = Button.new fixed, :button! do Gtk.main_quit end
+window.show_all
+
+Gtk.main

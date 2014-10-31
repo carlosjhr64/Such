@@ -1,0 +1,33 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window: {
+    set_title: 'Gtk::Entry',
+    set_default_size: [350,200],
+    set_window_position: :center,
+  },
+  window!: [:window, 'destroy'],
+
+  LABEL: ['...'],
+  label: {into: [:put,60,40]},
+  label!: [:LABEL, :label],
+
+  entry: {into: [:put,60,100]},
+  entry!: [:entry, 'key-release-event'],
+)
+
+require 'pp'
+def on_key_release(sender, event, label)
+  label.set_text sender.text
+end
+
+window = Window.new :window! do Gtk.main_quit end
+fixed = Fixed.new window
+label = Label.new fixed, :label!
+Entry.new fixed, :entry! do |sender, event| on_key_release(sender, event, label) end
+window.show_all
+
+Gtk.main

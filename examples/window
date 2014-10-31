@@ -1,0 +1,11 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+Thing.configure(
+  window:
+    {set_title:'Center', set_default_size:[300,200], set_window_position: :center, show:nil}
+)
+Window.new :window, 'destroy' do Gtk.main_quit end
+Gtk.main
