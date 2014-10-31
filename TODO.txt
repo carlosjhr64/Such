@@ -1,6 +1,12 @@
 Such::Thing::INTOS may differ between toolkits.
 How do I tell Such which INTOS content to use?
-Also, add a test for the latest edit.
+
 == File List
 
+TODO:	GTK!?
+	lib/such/thing.rb, #3
+TODO:	GTK!?
+	lib/such/thing.rb, #104
+TODO:	GTK!?
+	lib/such/thing.rb, #107
 

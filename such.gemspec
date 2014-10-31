@@ -8,17 +8,17 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2014-10-29'
+  s.date     = '2014-10-31'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
-TODO: such description...
+Such description...
 
-TODO: more such description...
+More such description...
 DESCRIPTION
 
   s.summary = <<SUMMARY
-TODO: such description...
+Such description...
 SUMMARY
 
   s.extra_rdoc_files = ['README.rdoc']

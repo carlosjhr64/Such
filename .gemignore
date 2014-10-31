@@ -1,1 +1,10 @@
-^((images\/)|(examples\/)|(features\/)|(test\/)|(TODO\.)|(History\.))
+^(
+ (\.)|
+ (images\/)|
+ (examples\/)|
+ (features\/)|
+ (test\/)|
+ (TODO\.)|
+ (such.gemspec)|
+ (History\.)
+)
