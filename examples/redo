@@ -46,7 +46,7 @@ end
 @count = 2
 window = Window.new(:window, 'destroy'){Gtk.main_quit}
   vbox = Box.new window, :VBOX
-    toolbar = Toolbar.new vbox, :toolbar, :tight
+    toolbar = Toolbar.new vbox, :toolbar
       @undo = ToolButton.new(toolbar, :undo!){on_undo}
       @redo = ToolButton.new(toolbar, :redo!){on_redo}
       SeparatorToolItem.new toolbar, :sep
