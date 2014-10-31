@@ -104,7 +104,7 @@ module Such
         signals.push('clicked') if block and none # TODO: GTK!?
         signals.each do |signal|
           Thing.trace_signal(obj, signal) if $VERBOSE
-          obj.signal_connect(signal){|*emits| block.call(*emits)}
+          obj.signal_connect(signal){|*emits| block.call(*emits)} # TODO: GTK!?
         end
       elsif not none
         warn "Warning: No block given for #{signals.join(',')} on #{obj.class}."
