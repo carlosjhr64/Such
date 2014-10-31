@@ -17,7 +17,7 @@ Thing.configure(
   VBOX: [:vertical, 2],
 
   toolbar: {
-    set_toolbar_style: Gtk::Toolbar::Style::ICONS
+    set_toolbar_style: Gtk::Toolbar::Style::ICONS,
     into: [:pack_start,expand:false,fill:false,padding:0],
   },
 
