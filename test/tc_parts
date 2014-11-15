@@ -1,0 +1,41 @@
+#! ruby
+require 'test/unit'
+require 'such/parts'
+
+module Such
+  def self.subclass(part, thing, code)
+    [part, thing, code]
+  end
+
+  module Thing
+  end
+end
+
+class Thingy
+  include Such::Thing
+end
+
+class TestParts < Test::Unit::TestCase
+  def test_make
+    assert_nothing_raised() do
+
+      # No such class "Zingy" for a superclass
+      assert_raises(NameError){Such::Parts.make('Part','Zingy',:plug_Whatchamacallit)}
+
+      # Plug must be in the form :key_class
+      assert_raises(RuntimeError){Such::Parts.make('Part','Thingy',:plug)}
+
+      part, thing, code = Such::Parts.make('Part','Thingy',:a_Abc, :xyz_Xyz)
+      assert_equal 'Part', part
+      assert_equal 'Thingy', thing
+      assert_equal code, <<-CODE
+        attr_accessor :a_Abc, :xyz_Xyz
+        def self.plugs
+          [:a_Abc, :xyz_Xyz]
+        end
+        include Such::Part
+      CODE
+
+    end
+  end
+end

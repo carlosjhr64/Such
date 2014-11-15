@@ -11,7 +11,12 @@ def tc(name)
   system "#{RUBY} #{fn(name)} > #{LOG}"
 end
 
-if tc('version') and tc('thing') and tc('such') and tc('things')
+if tc('version') and
+   tc('thing')   and
+   tc('such')    and
+   tc('things')  and
+   tc('part')    and
+   tc('parts')
   puts 'All tests passed!'
   File.unlink LOG
 else

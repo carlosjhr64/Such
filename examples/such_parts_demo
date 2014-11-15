@@ -1,0 +1,52 @@
+#! ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
+
+module Empty
+  STRING, ARRAY, HASH = ''.freeze, [].freeze, {}.freeze
+end
+
+Such::Thing.configure(
+  button_size: {set_size_request: [70,30]},
+
+  # The :x! Button
+  X: [label: 'X'],
+  x: :button_size,
+
+  # The :y! Button
+  Y: [label: 'Y'],
+  y: :button_size,
+
+  # The :vbox! Vertical Box
+  VBOX: [:vertical],
+  vbox!: [:VBOX, Empty::HASH, Empty::STRING],
+
+  # The :app! Window
+  app: {
+    set_border_width: 10,
+    set_title: 'Parts',
+    set_default_size: [260,150],
+    set_window_position: :center,
+  },
+  app!: [:app, 'destroy']
+
+)
+
+# App will be a Window that connects to a VBox.new(:vbox!)
+Such::Parts.make('App', 'Window', :vbox_VBox)
+# VBox will be a Box that connects to a Button.new(:x!) and Button.new(:y!)
+Such::Parts.make('VBox', 'Box', :x_Button, :y_Button)
+
+# Note that all connected widgets can respond the the block given.
+app = App.new :app! do |widget, *w, signal|
+  case widget
+  when Window
+    Gtk.main_quit if signal=='destroy'
+  when Button
+    puts widget.label if signal=='clicked'
+  end
+end
+app.show_all
+
+Gtk.main

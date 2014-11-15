@@ -75,6 +75,11 @@ ZetCode.com[http://zetcode.com/gui/rubygtk/].
 
   $ sudo gem install such
 
+== But wait!  One more thing:
+
+See such_parts_demo[examples/such_parts_demo] in the examples directory
+and tc_part[test/tc_part] for hints on how to use the much poweful Such::Part module.
+
 == LICENSE:
 
 (The MIT License)
