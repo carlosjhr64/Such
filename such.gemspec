@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'such'
-  s.version  = '0.0.0'
+  s.version  = '0.1.0'
 
   s.homepage = 'https://github.com/carlosjhr64/such'
 
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2014-11-01'
+  s.date     = '2014-11-15'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -31,6 +31,8 @@ SUMMARY
   s.files = %w(
 README.rdoc
 lib/such.rb
+lib/such/part.rb
+lib/such/parts.rb
 lib/such/such.rb
 lib/such/thing.rb
 lib/such/things.rb

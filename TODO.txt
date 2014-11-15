@@ -8,5 +8,5 @@ TODO:	GTK!?
 TODO:	GTK!?
 	lib/such/thing.rb, #104
 TODO:	GTK!?
-	lib/such/thing.rb, #107
+	lib/such/thing.rb, #108
 
