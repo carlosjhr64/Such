@@ -16,7 +16,7 @@ end
 
 class TestSuch < Test::Unit::TestCase
   def test_subclass
-    assert_nothing_thrown() do
+    assert_nothing_raised() do
       Such.subclass('AClass', 'SomeClass', 'include SomeModule')
       this_instance = Such::AClass.new('This Value')
       assert_equal(this_instance.value, 'This Value')
