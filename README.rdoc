@@ -77,7 +77,7 @@ ZetCode.com[http://zetcode.com/gui/rubygtk/].
 
 == But wait!  One more thing:
 
-See {such_parts_demo][link:examples/such_parts_demo] in the examples directory
+See {such_parts_demo}[link:examples/such_parts_demo] in the examples directory
 and {tc_part}[link:test/tc_part] for hints on how to use the much poweful Such::Part module.
 
 == LICENSE:
