@@ -1,10 +1,17 @@
 module Such
   module Parts
     def self.make(part, thing, *plugs)
-      raise "Superclass(#{thing}) must be a Such::Thing" unless Object.const_get(thing) < Such::Thing
-      plugs.each{|plug|
-        raise "Plugs must have the form key_class: #{plug}" unless plug=~/^[^\W_]+_[^\W_]+$/
-      }
+      raise "Such::#{thing} not defined." unless Object.const_defined?("Such::#{thing}")
+      plugs.each do |plug|
+        if /^[^\W_]+_(?<klass>[^\W_]+)$/=~plug
+          next unless $VERBOSE
+          unless Object.const_defined?("Such::#{klass}")
+            $stderr.puts "Warning: Such::#{klass} not defined yet."
+          end
+        else
+          raise "Plugs must have the form key_class: #{plug}"
+        end
+      end
       Such.subclass part, thing,  <<-EOT
         attr_accessor :#{plugs.join(', :')}
         def self.plugs
