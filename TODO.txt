@@ -6,7 +6,7 @@ How do I tell Such which INTOS content to use?
 TODO:	GTK!?
 	lib/such/thing.rb, #3
 TODO:	GTK!?
-	lib/such/thing.rb, #104
+	lib/such/thing.rb, #105
 TODO:	GTK!?
-	lib/such/thing.rb, #108
+	lib/such/thing.rb, #109
 
