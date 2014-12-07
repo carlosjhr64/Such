@@ -99,6 +99,7 @@ module Such
     end
 
     def self.do_links(obj, signals, block)
+      return if signals.first==''
       none = (signals.length==0)
       if block
         signals.push('clicked') if block and none # TODO: GTK!?
