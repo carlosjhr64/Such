@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 if ARGV[0]
-  raise "#{ARGV[0]} ???" unless system("which '#{ARGV[0]}' > /dev/null")
+  raise "#{ARGV[0]} ???" unless system("which '#{ARGV[0]}' 2> /dev/null")
   RUBY = "#{ARGV[0]} -I ./lib"
 else
   RUBY = 'ruby -I ./lib'
@@ -25,6 +25,5 @@ if tc('version') and
   puts 'All tests passed!'
   File.unlink LOG
 else
-  puts "There were errors.  See #{LOG}"
-  exit 1
+  abort("There were errors.  See #{LOG}.")
 end
