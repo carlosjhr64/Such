@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2014-12-07'
+  s.date     = '2015-12-14'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -39,6 +39,6 @@ lib/such/things.rb
 lib/such/version.rb
   )
 
-  s.requirements << 'ruby: ruby 2.1.3p242 (2014-09-19 revision 47630) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 2.1.5p273 (2014-11-13 revision 48405) [x86_64-linux]'
 
 end
