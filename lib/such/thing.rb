@@ -25,7 +25,7 @@ module Such
           parameters.unshift(p.downcase.to_sym)
           parameters.unshift(p.upcase.to_sym)
         else
-          warn "Warning: Such::PARAMETERS[#{parameter}] not defined"
+          warn "Warning: Such::Thing::PARAMETERS[#{parameter}] not defined"
         end
       end
     end
