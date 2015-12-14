@@ -1,6 +1,11 @@
 Such::Thing::INTOS may differ between toolkits.
 How do I tell Such which INTOS content to use?
 
+DONE:
+  2014-12-13
+    Such::PARAMETERS warning is wrong, it's actually Such::Thing::PARAMETERS
+
+
 == File List
 
 TODO:	GTK!?
