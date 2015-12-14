@@ -8,7 +8,7 @@ module Empty
 end
 
 Such::Thing.configure(
-  button_size: {set_size_request: [70,30]},
+  button_size: {set_size_request: [30,70]},
 
   # The :x! Button
   X: [label: 'X'],
@@ -18,9 +18,9 @@ Such::Thing.configure(
   Y: [label: 'Y'],
   y: :button_size,
 
-  # The :vbox! Vertical Box
-  VBOX: [:vertical],
-  vbox!: [:VBOX, Empty::HASH, Empty::STRING],
+  # The :mybox! Vertical Box
+  MYBOX: [:vertical],
+  mybox!: [:MYBOX, Empty::HASH, Empty::STRING],
 
   # The :app! Window
   app: {
@@ -33,10 +33,10 @@ Such::Thing.configure(
 
 )
 
-# App will be a Window that connects to a VBox.new(:vbox!)
-Such::Parts.make('App', 'Window', :vbox_VBox)
-# VBox will be a Box that connects to a Button.new(:x!) and Button.new(:y!)
-Such::Parts.make('VBox', 'Box', :x_Button, :y_Button)
+# App will be a Window that connects to a MyBox.new(:mybox!)
+Such::Parts.make('App', 'Window', :mybox_MyBox)
+# MyBox will be a Box that connects to a Button.new(:x!) and Button.new(:y!)
+Such::Parts.make('MyBox', 'Box', :x_Button, :y_Button)
 
 # Note that all connected widgets can respond the the block given.
 app = Such::App.new :app! do |widget, *w, signal|

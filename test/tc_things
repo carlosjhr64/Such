@@ -2,17 +2,6 @@
 require 'test/unit'
 require 'such/things'
 
-module A
-  class X
-  end
-  class X1 < X
-  end
-  class X2 < X
-  end
-  class X3 < X
-  end
-end
-
 module Gtk
   class Widget
   end
@@ -34,11 +23,10 @@ end
 
 class TestThings < Test::Unit::TestCase
   def test_list
-    assert_equal(Such::Things.list(A::X).sort{|a,b| a.name<=>b.name}, [A::X1,A::X2,A::X3])
-    assert_equal(Such::Things.list.sort{|a,b| a.name<=>b.name}, [Gtk::A,Gtk::B,Gtk::C])
+    assert_equal(Such::Things.list(Gtk::Widget).sort{|a,b| a.name<=>b.name}, [Gtk::A,Gtk::B,Gtk::C])
   end
 
-  def test_gtk_widget
+  def test_widgets
     assert_nothing_raised() do
       Such::Things.gtk_widget
     end

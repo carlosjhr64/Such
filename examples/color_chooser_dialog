@@ -6,7 +6,7 @@ include Such; Things.gtk_widget
 Thing.configure(
   window: {
     set_border_width: 10,
-    set_title: 'Gtk::ColorSelectingDialog',
+    set_title: 'Gtk::ColorChooserDialog',
     set_default_size: [350,150],
     set_window_position: :center,
   },
@@ -25,13 +25,11 @@ Thing.configure(
 )
 
 def on_clicked(label)
-  cdia = ColorSelectionDialog.new :CDIA
+  cdia = ColorChooserDialog.new :CDIA
   response = cdia.run
   if response == Gtk::ResponseType::OK
-    colorsel = cdia.color_selection
-    col = colorsel.current_rgba
-    label.override_color :normal, col
-    end
+    label.override_color :normal, cdia.rgba
+  end
   cdia.destroy
 end
 
