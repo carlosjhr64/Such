@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 
   s.name     = 'such'
-  s.version  = '0.2.1'
+  s.version  = '0.3.0'
 
   s.homepage = 'https://github.com/carlosjhr64/such'
 
