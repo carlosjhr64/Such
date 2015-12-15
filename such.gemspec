@@ -8,20 +8,21 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2015-12-14'
+  s.date     = '2015-12-15'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
-Wraps Ruby's Gtk widgets with an alternate constructor
+Wraps widgets with an alternate constructor
 which factors out the configuration and assembly procedures into metadata.
-
-And the _Such_ module can be used to wrap any class with the alternate constructor,
-although currently only _Gtk3_ widgets is supported.
+Can be used to wrap any class with the alternate constructor,
+although currently only Gtk3 widgets is supported.
 DESCRIPTION
 
   s.summary = <<SUMMARY
-Wraps Ruby's Gtk widgets with an alternate constructor
+Wraps widgets with an alternate constructor
 which factors out the configuration and assembly procedures into metadata.
+Can be used to wrap any class with the alternate constructor,
+although currently only Gtk3 widgets is supported.
 SUMMARY
 
   s.extra_rdoc_files = ['README.rdoc']
