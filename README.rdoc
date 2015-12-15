@@ -2,11 +2,10 @@
 
 == DESCRIPTION:
 
-Wraps Ruby's Gtk widgets with an alternate constructor
+Wraps widgets with an alternate constructor
 which factors out the configuration and assembly procedures into metadata.
-
-And the _Such_ module can be used to wrap any class with the alternate constructor,
-although currently only _Gtk3_ widgets is supported.
+Can be used to wrap any class with the alternate constructor,
+although currently only Gtk3 widgets is supported.
 
 == SYNOPSIS:
 
@@ -78,14 +77,14 @@ ZetCode.com[http://zetcode.com/gui/rubygtk/].
 == But wait!  One more thing:
 
 See link:examples/such_parts_demo in the examples directory
-and link:test/tc_part for hints on how to use the much poweful
+and link:test/tc_part for hints on how to use the much powerful
 Such::Part module link:lib/such/part.rb
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2014 
+Copyright (c) 2015 
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

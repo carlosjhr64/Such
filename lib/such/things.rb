@@ -17,9 +17,5 @@ module Such
     def self.gtk_widget
       Things.in(Gtk::Widget)
     end
-
-    def self.tk_tile
-      Things.in(Tk::Tile)
-    end
   end
 end
