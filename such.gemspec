@@ -40,6 +40,6 @@ lib/such/things.rb
 lib/such/version.rb
   )
 
-  s.requirements << 'ruby: ruby 2.1.5p273 (2014-11-13 revision 48405) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-linux]'
 
 end
