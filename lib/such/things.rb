@@ -9,7 +9,7 @@ module Such
         begin
           Such.subclass(clss.name.sub(/^.*::/, ''))
         rescue Exception
-          warn "#{$!.class}:\t#{clss}"
+          $stderr.puts "#{$!.class}:\t#{clss}" if $VERBOSE
         end
       end
     end

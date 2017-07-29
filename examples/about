@@ -18,7 +18,7 @@ Thing.configure(
              set_program_name: 'Battery',
              set_version: '0.1',
              set_copyright: '(c) Johny Dowy',
-             set_comments: 'Batter is a simple tool for battery checking',
+             set_comments: 'Battery is a simple tool for battery checking',
              set_website: 'http://www.zetcode.com',
            },
 )

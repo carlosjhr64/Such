@@ -8,7 +8,7 @@ end
     begin
       eval code
     rescue Exception
-      warn code
+      $stderr.puts code if $VERBOSE
       raise $!
     end
   end
