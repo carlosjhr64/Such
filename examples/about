@@ -25,8 +25,9 @@ Thing.configure(
 
 def on_clicked
   about = AboutDialog.new :about
+  about.transient_for = @window
   begin
-    logo = Gdk::Pixbuf.new(*Thing::PARAMETERS[:PIXBUF])
+    logo = GdkPixbuf::Pixbuf.new(*Thing::PARAMETERS[:PIXBUF])
     about.set_logo logo
   rescue IOError
     warn 'cannot load image' if $VERBOSE
@@ -35,8 +36,8 @@ def on_clicked
   about.destroy
 end
 
-window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  fix = Fixed.new window
+@window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  fix = Fixed.new @window
     Button.new(fix, :button!){on_clicked}
-window.show_all
+@window.show_all
 Gtk.main
