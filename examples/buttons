@@ -28,12 +28,12 @@ Thing.configure(
 )
 
 window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  vbox = Box.new window, :VBOX
-    Alignment.new vbox, :space!
-    halign = Alignment.new vbox, :halign!
-      hbox = Box.new halign, :HBOX
-        Button.new(hbox, :ok!){puts 'OK Pressed!'}
-        Button.new(hbox, :close!){puts 'Close pressed!'}
-window.show_all
+vbox = Box.new window, :VBOX
+Alignment.new vbox, :space!
+halign = Alignment.new vbox, :halign!
+hbox = Box.new halign, :HBOX
+Button.new(hbox, :ok!){puts 'OK Pressed!'}
+Button.new(hbox, :close!){puts 'Close pressed!'}
 
+window.show_all
 Gtk.main

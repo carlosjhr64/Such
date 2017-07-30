@@ -46,14 +46,14 @@ Thing.configure(
 )
 
 window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  grid = Grid.new window, :grid
-    align1 = Alignment.new grid, :align1!
-      Label.new align1, :TITLE
-    Frame.new grid, :frame
-    vbox = Box.new grid, :vbox!
-      Button.new(vbox, :act_btn!){puts 'Activate'}
-      Button.new(vbox, :cls_btn!){puts 'Close'}
-    align2 = Alignment.new grid, :align2!
-      Button.new(align2, :hlp_btn!){puts 'Help'}
+grid = Grid.new window, :grid
+align1 = Alignment.new grid, :align1!
+Label.new align1, :TITLE
+Frame.new grid, :frame
+vbox = Box.new grid, :vbox!
+Button.new(vbox, :act_btn!){puts 'Activate'}
+Button.new(vbox, :cls_btn!){puts 'Close'}
+align2 = Alignment.new grid, :align2!
+Button.new(align2, :hlp_btn!){puts 'Help'}
 window.show_all
 Gtk.main

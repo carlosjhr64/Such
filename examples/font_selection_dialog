@@ -15,21 +15,16 @@ Thing.configure(
 )
 
 def on_clicked(label)
-  fdia = Gtk::FontChooserDialog.new :title => 'Select font name', :parent => nil
+  fdia = Gtk::FontChooserDialog.new :title => 'Select font name', :parent => @window
   response = fdia.run
-  if response == Gtk::ResponseType::OK
-    font_desc = Pango::FontDescription.new fdia.font_desc
-    if font_desc
-      label.override_font font_desc
-    end
-  end
+  label.override_font(fdia.font_desc) if response==Gtk::ResponseType::OK
   fdia.destroy
 end
 
-window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  fix = Fixed.new(window)
-    label = Label.new(fix, :label!)
-    button = Button.new(fix, :button!, 'clicked'){on_clicked(label)}
+@window = Window.new(:window, 'destroy'){Gtk.main_quit}
+fix = Fixed.new(@window)
+label = Label.new(fix, :label!)
+Button.new(fix, :button!, 'clicked'){on_clicked(label)}
 
-window.show_all
+@window.show_all
 Gtk.main

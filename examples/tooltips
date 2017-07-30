@@ -19,7 +19,7 @@ Thing.configure(
 
 window = Window.new :window! do Gtk.main_quit end
 fixed = Fixed.new window
-button = Button.new fixed, :button! do puts 'Button pressed!' end
+Button.new fixed, :button! do puts 'Button pressed!' end
 window.show_all
 
 Gtk.main

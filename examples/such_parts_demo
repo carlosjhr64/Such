@@ -38,7 +38,7 @@ Such::Parts.make('App', 'Window', :mybox_MyBox)
 # MyBox will be a Box that connects to a Button.new(:x!) and Button.new(:y!)
 Such::Parts.make('MyBox', 'Box', :x_Button, :y_Button)
 
-# Note that all connected widgets can respond the the block given.
+# Note that all connected widgets can respond to the block given.
 app = Such::App.new :app! do |widget, *w, signal|
   case widget
   when Such::Window

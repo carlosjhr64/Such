@@ -33,7 +33,7 @@ Thing.configure(
 )
 
 window = Window.new :window! do Gtk.main_quit end
-label = Label.new window, :LABEL
+Label.new window, :LABEL
 window.show_all
 
 Gtk.main

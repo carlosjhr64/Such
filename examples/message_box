@@ -55,30 +55,34 @@ Thing.configure(
 
 def on_info
   md = MessageDialog.new :INFO_DIALOG
+  md.transient_for = @window
   md.run; md.destroy
 end
 
 def on_erro
   md = MessageDialog.new :ERRO_DIALOG
+  md.transient_for = @window
   md.run; md.destroy
 end
 
 def on_ques
   md = MessageDialog.new :QUES_DIALOG
+  md.transient_for = @window
   md.run; md.destroy
 end
 
 def on_warn
   md = MessageDialog.new :WARN_DIALOG
+  md.transient_for = @window
   md.run; md.destroy
 end
 
 @window = Window.new(:window, 'destroy'){Gtk.main_quit}
   table = Table.new @window, :TABLE
-    info = Button.new(table, :info!){on_info}
-    warn = Button.new(table, :warn!){on_warn}
-    ques = Button.new(table, :ques!){on_ques}
-    erro = Button.new(table, :erro!){on_erro}
+    Button.new(table, :info!){on_info}
+    Button.new(table, :warn!){on_warn}
+    Button.new(table, :ques!){on_ques}
+    Button.new(table, :erro!){on_erro}
 @window.show_all
 
 Gtk.main

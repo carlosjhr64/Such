@@ -14,7 +14,7 @@ Thing.configure(
 
   mb: :tight,
 
-  FILE: ['File'],
+  FILE: [label: 'File'],
 
   VBOX: [:vertical, 2],
 
@@ -33,15 +33,15 @@ LABEL = [
 ]
 
 window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  vbox = Box.new window, :VBOX
-    mb = MenuBar.new vbox, :mb
-      file = MenuItem.new mb, :FILE
-        filemenu = Menu.new file
-    Entry.new vbox, :tight
-    grid = Grid.new vbox, :grid
-    0.upto(LABEL.length-1) do |i|
-      grid.attach Gtk::Button.new(:label => LABEL[i]), i%4, i/4, 1,1
-    end
+vbox = Box.new window, :VBOX
+mb = MenuBar.new vbox, :mb
+file = MenuItem.new mb, :FILE
+Menu.new file
+Entry.new vbox, :tight
+grid = Grid.new vbox, :grid
+0.upto(LABEL.length-1) do |i|
+  grid.attach Gtk::Button.new(:label => LABEL[i]), i%4, i/4, 1,1
+end
 window.show_all
 
 Gtk.main

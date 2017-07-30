@@ -5,19 +5,19 @@ include Such; Things.gtk_widget
 
 Thing.configure(
   window: {
-    override_background_color: [:normal, Gdk::RGBA.new(0.2, 0.2, 0.2, 1)],
+    #override_background_color: [:normal, Gdk::RGBA.new(0.2, 0.2, 0.2, 1)],
     set_title: 'Submenu',
     set_default_size: [350, 250],
     set_window_position: :center,
   },
   VBOX: [:vertical, 2],
   mb: {into: [:pack_start, expand:false, fill:false]},
-  FILEM: ['File'],
-  IMPORTM: ['Import'],
-  INEWS: ['Import news feed...'],
-  IBOOKMARKS: ['Import bookmarks...'],
-  IMAIL: ['Import mail...'],
-  EXIT: ['Exit'],
+  FILEM: [label: 'File'],
+  IMPORTM: [label: 'Import'],
+  INEWS: [label: 'Import news feed...'],
+  IBOOKMARKS: [label: 'Import bookmarks...'],
+  IMAIL: [label: 'Import mail...'],
+  EXIT: [label: 'Exit'],
 )
 
 window = Window.new(:window, 'destroy'){Gtk.main_quit}

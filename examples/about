@@ -37,7 +37,8 @@ def on_clicked
 end
 
 @window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  fix = Fixed.new @window
-    Button.new(fix, :button!){on_clicked}
+fix = Fixed.new @window
+Button.new(fix, :button!){on_clicked}
+
 @window.show_all
 Gtk.main

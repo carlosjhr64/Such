@@ -26,6 +26,7 @@ Thing.configure(
 
 def on_clicked(label)
   cdia = ColorChooserDialog.new :CDIA
+  cdia.transient_for = @window
   response = cdia.run
   if response == Gtk::ResponseType::OK
     label.override_color :normal, cdia.rgba
@@ -33,9 +34,10 @@ def on_clicked(label)
   cdia.destroy
 end
 
-window = Window.new(:window, 'destroy'){ Gtk.main_quit }
-  fix = Fixed.new window
-    label = Label.new fix, :label!
-    Button.new(fix, :button!, 'clicked'){ on_clicked(label) }
-window.show_all
+@window = Window.new(:window, 'destroy'){ Gtk.main_quit }
+fix = Fixed.new @window
+label = Label.new fix, :label!
+Button.new(fix, :button!, 'clicked'){ on_clicked(label) }
+
+@window.show_all
 Gtk.main

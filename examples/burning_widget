@@ -89,9 +89,10 @@ def on_draw
 end
 
 window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  vbox = Box.new window, :VBOX
-    fix = Fixed.new vbox
-      @scale = Scale.new(fix, :scale!, 'value-changed'){@burning.queue_draw}
-    @burning = DrawingArea.new(vbox, :burning, 'draw'){on_draw}
+vbox = Box.new window, :VBOX
+fix = Fixed.new vbox
+@scale = Scale.new(fix, :scale!, 'value-changed'){@burning.queue_draw}
+@burning = DrawingArea.new(vbox, :burning, 'draw'){on_draw}
+
 window.show_all
 Gtk.main
