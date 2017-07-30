@@ -252,10 +252,7 @@ class TestThing < Test::Unit::TestCase
       assert_equal({a:'A'}, b)
       Such::Thing.do_method(b, :clear)
       assert_equal({}, b)
-      out = TestThing.capture_stderr{
-        Such::Thing.do_method(b, :[]=, [:a,'A'], [:b,'B'], [:c,'C'])
-      }
-      assert_match(/^Warning:/, out) # warns that arity was not one, poor heuristics.
+      Such::Thing.do_method(b, :[]=, [:a,'A'], [:b,'B'], [:c,'C'])
       assert_equal({a:'A',b:'B',c:'C'}, b)
     end
   end
