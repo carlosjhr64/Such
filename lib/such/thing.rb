@@ -1,6 +1,6 @@
 module Such
   module Thing
-    INTOS = [:set_submenu, :pack_start, :append, :add] # TODO:GTK!?
+    INTOS = [:set_submenu, :pack_start, :append, :add] # TODO:TK!?
 
     PARAMETERS = {}
     def self.configure(conf)
@@ -57,15 +57,19 @@ module Such
     end
 
     def self.which_method(container, methods=INTOS)
-      methods.each{|mthd| return mthd if container.respond_to?(mthd)}
-      raise "Don't know how to put into #{container.class}."
+      mthd = methods.detect{|m| container.respond_to?(m)}
+      raise "Don't know how to put into #{container.class}." if mthd.nil?
+      return mthd
     end
 
     def self.into(obj, container=nil, mthd=nil, *args)
       if container
-        mthd=Thing.which_method(container) unless mthd
-        unless mthd.class==Symbol and container.respond_to?(mthd)
-          raise "Need container & method. Got #{container.class}##{mthd}(#{obj.class}...)"
+        if mthd
+          unless mthd.class==Symbol and container.respond_to?(mthd)
+            raise "Need container & method. Got #{container.class}##{mthd}(#{obj.class}...)"
+          end
+        else
+          mthd=Thing.which_method(container)
         end
         Thing.trace_method(container, mthd, [obj.class,*args]) if $VERBOSE
         container.method(mthd).call(obj, *args)
@@ -99,11 +103,11 @@ module Such
       return if signals.first==''
       none = (signals.length==0)
       if block
-        signals.push('clicked') if block and none # TODO: GTK!?
+        signals.push('clicked') if block and none # TODO: TK!?
         signals.each do |signal|
           break if signal==''
           begin
-            obj.signal_connect(signal){|*emits| block.call(*emits, signal)} # TODO: GTK!?
+            obj.signal_connect(signal){|*emits| block.call(*emits, signal)} # TODO: TK!?
             Thing.trace_signal(obj, signal) if $VERBOSE
           rescue GLib::NoSignalError
             warn "Warning: no \"#{signal}\" signal for #{obj.class}"
