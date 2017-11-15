@@ -1,9 +1,9 @@
 #! ruby
 require 'test/unit'
-require 'such/version'
+require 'such'
 
 class TestVersion < Test::Unit::TestCase
   def test_vesion()
-    assert_equal(Such::VERSION, '0.3.0')
+    assert_equal(Such::VERSION, '0.4.0')
   end
 end
