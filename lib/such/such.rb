@@ -1,15 +1,6 @@
 module Such
-  def self.subclass(clss, sprclss="Gtk::#{clss}", body='include Such::Thing')
-    code = <<-CODE
-      class #{clss} < #{sprclss}
-        #{body}
-      end
-    CODE
-    begin
-      eval code
-    rescue Exception
-      $stderr.puts code if $VERBOSE
-      raise $!
-    end
+  def self.subclass(klass:, superklass:, including: Such::Thing)
+    _ = const_set(klass, Class.new(superklass))
+    _.include including if including
   end
 end
