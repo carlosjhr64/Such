@@ -2,6 +2,7 @@
 require 'test/unit'
 require 'such/part'
 
+module Such
 class Abc
   attr_accessor :value
   attr_reader :parameters
@@ -30,28 +31,24 @@ class C < Abc
     @value = v if k == :c
   end
 end
+end
 
 class TestPart < Test::Unit::TestCase
   def test_parts
-    assert_nothing_raised() do
+    a = Such::A.new :a
+    assert_equal [:a], a.parameters
+    # Notice how it's setup to connect to Such::Thing objects
+    assert_equal [a, :b!], a.b_B.parameters
+    assert_equal [a, :c!], a.c_C.parameters
 
-      a = A.new :a
+    # Messages are broadcasted to all.
+    # It's up to each receiver to act accordingly.
+    a.message :b, 'Hello'
+    a.message :c, 'World!'
+    assert_equal 'Hello',  a.b_B.value
+    assert_equal 'World!', a.c_C.value
 
-      assert_equal [:a], a.parameters
-      # Notice how it's setup to connect to Such::Thing objects
-      assert_equal [a, :b!], a.b_B.parameters
-      assert_equal [a, :c!], a.c_C.parameters
-
-      # Messages are broadcasted to all.
-      # It's up to each receiver to act accordingly.
-      a.message :b, 'Hello'
-      a.message :c, 'World!'
-      assert_equal 'Hello',  a.b_B.value
-      assert_equal 'World!', a.c_C.value
-
-      assert_nil a.d_D
-      assert_raises(NoMethodError){a.this_method_missing}
-
-    end
+    assert_nil a.d_D
+    assert_raises(NoMethodError){a.this_method_missing}
   end
 end

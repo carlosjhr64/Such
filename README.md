@@ -1,53 +1,70 @@
-= Such
+# Such
 
-== DESCRIPTION:
+* [VERSION 1.0.210113](https://github.com/carlosjhr64/such/releases)
+* [github](https://www.github.com/carlosjhr64/such)
+* [rubygems](https://rubygems.org/gems/such)
+
+## DESCRIPTION:
 
 Wraps widgets with an alternate constructor
 which factors out the configuration and assembly procedures into metadata.
 Can be used to wrap any class with the alternate constructor,
 although currently only Gtk3 widgets is supported.
 
-== SYNOPSIS:
+## INSTALL:
 
-   require 'gtk3'
-   require 'such'
-   include Such; Things.gtk_widget
+```shell
+$ sudo gem install such
+```
 
-   Thing.configure window: {
-                     set_title: 'Synopsis Example',
-                     set_window_position: :center },
-                   BUTTON: [label: 'Button!'],
-                   button: {set_size_request: [100,50], into:[:add]}
+## SYNOPSIS:
 
-   window = Window.new(:window, 'destroy'){Gtk.main_quit}
-     Button.new(window, :button!){puts 'Button pressed!'}
-   window.show_all
+```ruby
+require 'gtk3'
+require 'such'
+include Such; Things.gtk_widget
 
-   Gtk.main
+Thing.configure window: {
+                  set_title: 'Synopsis Example',
+                  set_window_position: :center },
+                BUTTON: [label: 'Button!'],
+                button: {set_size_request: [100,50], into:[:add]}
 
-== MORE:
+window = Window.new(:window, 'destroy'){Gtk.main_quit}
+  Button.new(window, :button!){puts 'Button pressed!'}
+window.show_all
+
+Gtk.main
+```
+
+## MORE:
 
 Arrays are passed to constructer's super,
 Hashes are method=>arguments pairs, and Strings are signals.
 Other objects are assumed to be containers:
 
-   Such::Button.new(window, [label: 'Hello!'], {set_size_request:[100,50]}, 'clicked' ){puts 'OK'}
+```ruby
+Such::Button.new(window, [label: 'Hello!'], {set_size_request:[100,50]}, 'clicked' ){puts 'OK'}
 
-   # Is equivalent to
+# Is equivalent to
 
-   button = Gtk::Button.new(label:'Hello!')
-   window.add button
-   button.set_size_request 100, 50
-   button.signal_connect('clicked'){puts 'OK'}
+button = Gtk::Button.new(label:'Hello!')
+window.add button
+button.set_size_request 100, 50
+button.signal_connect('clicked'){puts 'OK'}
+```
 
 To set the packing method to say, :pack_start, set the :into method as follows:
 
+```ruby
    {into: [:pack_start, expand:false, fill:false, padding:0]}
    # The effect in the contructor will be as if the following was run:
    #    container.pack_start(self, expand:false, fill:false, padding:0)
+```
 
 One can configure Symbol keys to represent metadata about a widget:
 
+```ruby
    Thing.configure(
      KEY: [ arg1, arg2, arg3 ], # an array for super(arg1, arg2, arg3)
      key: {                     # a hash for like self.method(args)
@@ -57,11 +74,12 @@ One can configure Symbol keys to represent metadata about a widget:
      },
      key!: [[arg1, arg2], {meth1:args1, meth2:args2}, 'signal1', 'signal2'] # the splatter bang!
    )
+```
 
 The examples in this repository are reworks of the examples given in
 ZetCode.com[http://zetcode.com/gui/rubygtk/] (back in 2015).
 
-=== Features:
+## Features:
 
 * :key! content *splat
 * Undefined :key! expanded to :KEY, :key
@@ -70,21 +88,17 @@ ZetCode.com[http://zetcode.com/gui/rubygtk/] (back in 2015).
 * Packing method defaults (ultimately) to :add
 * Way to change default packing behaviour
 
-== INSTALL:
-
-  $ sudo gem install such
-
-== But wait!  One more thing:
+## But wait!  One more thing:
 
 See link:examples/such_parts_demo in the examples directory
 and link:test/tc_part for hints on how to use the much powerful
 Such::Part module link:lib/such/part.rb
 
-== LICENSE:
+## LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2017
+Copyright (c) 2021 CarlosJHR64
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
