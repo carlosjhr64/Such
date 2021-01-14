@@ -1,21 +1,20 @@
 module Such
   module Things
-    def self.list(klss)
-      ObjectSpace.each_object(Class).select{|k| k < klss}
+    def self.list(superklass)
+      ObjectSpace.each_object(Class).select{|klass| klass < superklass}
     end
 
-    def self.in(klass)
-      Things.list(klass).each do |clss|
+    def self.in(superklass)
+      Things.list(superklass).each do |klass|
         begin
-          Such.subclass(clss.name.sub(/^.*::/, ''))
-        rescue Exception
-          $stderr.puts "#{$!.class}:\t#{clss}" if $VERBOSE
+          Such.subclass(
+            subklass:  klass.name.sub(/^.*::/,'').to_sym,
+            klass:     klass,
+            including: Such::Thing)
+        rescue
+          $stderr.puts "#{$!.class}:\t#{superklass}" if $VERBOSE
         end
       end
-    end
-
-    def self.gtk_widget
-      Things.in(Gtk::Widget)
     end
   end
 end

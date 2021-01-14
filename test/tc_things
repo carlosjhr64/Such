@@ -14,10 +14,16 @@ module Gtk
 end
 
 module Such
-  LIST = []
-  def self.subclass(clss)
-    raise 'WUT?' unless ['A','B','C'].include?(clss)
-    LIST.push(clss)
+  module Thing # dummy module
+  end
+
+  SUBKLASS = []
+  KLASS = []
+  INCLUDING = []
+  def self.subclass(subklass:, klass:, including:)
+    SUBKLASS.push subklass
+    KLASS.push klass
+    INCLUDING.push including
   end
 end
 
@@ -27,9 +33,9 @@ class TestThings < Test::Unit::TestCase
   end
 
   def test_widgets
-    assert_nothing_raised() do
-      Such::Things.gtk_widget
-    end
-    assert_equal(Such::LIST.sort, ['A','B','C'])
+    Such::Things.in(Gtk::Widget)
+    assert_equal([:C, :B, :A], Such::SUBKLASS)
+    assert_equal([Gtk::C, Gtk::B, Gtk::A], Such::KLASS)
+    assert_equal([Such::Thing, Such::Thing, Such::Thing], Such::INCLUDING)
   end
 end
