@@ -7,7 +7,7 @@ behaviour
 carlosjhr
 CarlosJHR
 cls
-clss
+concat
 conf
 config
 const
@@ -25,7 +25,6 @@ http
 https
 INTOS
 klass
-klss
 MERCHANTABILITY
 mthd
 NONINFRINGEMENT
@@ -36,14 +35,13 @@ rb
 rubygems
 rubygtk
 stderr
+subklass
 sublicense
 submenu
 sudo
 superklass
 sym
 tc
-TK
-TODO
 TypeError
 uniq
 unshift

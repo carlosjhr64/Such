@@ -11,7 +11,7 @@ call
 class
 Class
 cls
-clss
+concat
 conf
 configure
 const_defined
@@ -29,11 +29,8 @@ downcase
 each
 each_object
 emits
-Exception
 first
 GLib
-Gtk
-gtk_widget
 Hash
 has_key
 in
@@ -44,13 +41,12 @@ into
 INTOS
 is_a
 join
-k
 klass
-klss
 length
 list
 m
 make
+merge
 message
 method
 method_missing
@@ -90,6 +86,7 @@ signals
 String
 sub
 subclass
+subklass
 Such
 superklass
 sym
@@ -104,8 +101,6 @@ TypeError
 uniq
 unshift
 upcase
-v
 VERSION
 warn
 which_method
-Widget

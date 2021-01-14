@@ -1,10 +1,10 @@
 module Such
   module Thing
-    INTOS = [:set_submenu, :pack_start, :append, :add] # TODO:TK!?
+    INTOS = [:set_submenu, :pack_start, :append, :add]
 
     PARAMETERS = {}
     def self.configure(conf)
-      conf.each{|k,v| PARAMETERS[k]=v}
+      PARAMETERS.merge! conf
     end
 
     def self.trace_method(obj, mthd, args)
@@ -36,17 +36,17 @@ module Such
         case parameter
         when Symbol
           # Symbols are expected to translate to something else.
-          Thing.do_symbol(parameter, parameters)
+          Thing.do_symbol parameter, parameters
         when Array
           # Arrays are added to the Thing's arguments list.
-          arguments += parameter
+          arguments.concat parameter
         when Hash
           # Hashes are expected to be a symbol list of methods on Thing with respective arguments.
           # It's possible to override a previously defined method with new arguments.
-          parameter.each{|k,v| methods[k]=v}
+          methods.merge! parameter
         when String
           # Typically a signal: Thing#signal_connect(signal){|*emits| block.call(*emits)}
-          signals.push(parameter)
+          signals.push parameter
         else
           # Assume it's a container
           container = parameter
@@ -103,14 +103,14 @@ module Such
       return if signals.first==''
       none = (signals.length==0)
       if block
-        signals.push('clicked') if block and none # TODO: TK!?
+        signals.push('clicked') if none
         signals.each do |signal|
           break if signal==''
           begin
-            obj.signal_connect(signal){|*emits| block.call(*emits, signal)} # TODO: TK!?
+            obj.signal_connect(signal){|*emits| block.call(*emits, signal)}
             Thing.trace_signal(obj, signal) if $VERBOSE
           rescue GLib::NoSignalError
-            warn "Warning: no \"#{signal}\" signal for #{obj.class}"
+            warn "Warning: no #{signal} signal for #{obj.class}"
           end
         end
       elsif not none
