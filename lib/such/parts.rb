@@ -12,13 +12,11 @@ module Such
           raise "Plugs must have the form key_class: #{plug}"
         end
       end
-      Such.subclass part, thing,  <<-EOT
-        attr_accessor :#{plugs.join(', :')}
+      Such.subclass(part, thing, include: Such::Part, attr_accessor: plugs) do
         def self.plugs
-          [:#{plugs.join(', :')}]
+          [*plugs]
         end
-        include Such::Part
-      EOT
+      end
     end
   end
 end

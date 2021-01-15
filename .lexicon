@@ -1,4 +1,3 @@
-_
 add
 append
 arg
@@ -6,10 +5,12 @@ args
 ArgumentError
 arguments
 Array
+attr_accessor
 block
 call
 class
 Class
+class_eval
 cls
 concat
 conf
@@ -42,6 +43,7 @@ INTOS
 is_a
 join
 klass
+kw
 length
 list
 m
@@ -78,6 +80,7 @@ require
 respond_to
 Ruby30
 select
+send
 set_submenu
 shift
 signal

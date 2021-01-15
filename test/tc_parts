@@ -3,8 +3,11 @@ require 'test/unit'
 require 'such/parts'
 
 module Such
-  def self.subclass(part, thing, code)
-    [part, thing, code]
+  def self.subclass(name, klass, **kw, &block)
+    [name, klass, kw, block]
+  end
+
+  module Part
   end
 
   class Thingy
@@ -13,25 +16,16 @@ end
 
 class TestParts < Test::Unit::TestCase
   def test_make
-    assert_nothing_raised() do
+    # No such class "Zingy" for a superclass
+    assert_raises(RuntimeError){Such::Parts.make(:Part, :Zingy, :plug_Whatchamacallit)}
 
-      # No such class "Zingy" for a superclass
-      assert_raises(RuntimeError){Such::Parts.make('Part','Zingy',:plug_Whatchamacallit)}
+    # Plug must be in the form :key_class
+    assert_raises(RuntimeError){Such::Parts.make(:Part, :Thingy, :plug)}
 
-      # Plug must be in the form :key_class
-      assert_raises(RuntimeError){Such::Parts.make('Part','Thingy',:plug)}
-
-      part, thing, code = Such::Parts.make('Part','Thingy',:a_Abc, :xyz_Xyz)
-      assert_equal 'Part', part
-      assert_equal 'Thingy', thing
-      assert_equal code, <<-CODE
-        attr_accessor :a_Abc, :xyz_Xyz
-        def self.plugs
-          [:a_Abc, :xyz_Xyz]
-        end
-        include Such::Part
-      CODE
-
-    end
+    part, thing, kw, block = Such::Parts.make(:Part, :Thingy, :a_Abc, :xyz_Xyz)
+    assert_equal :Part, part
+    assert_equal :Thingy, thing
+    assert_equal Hash, kw.class
+    assert_equal Proc, block.class
   end
 end

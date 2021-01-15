@@ -1,6 +1,8 @@
 module Such
-  def self.subclass(subklass:, klass:, including: nil)
-    _ = const_set(subklass, Class.new(klass))
-    _.include including if including
+  def self.subclass(name, klass, **kw, &block)
+    subklass = const_set(name, Class.new(klass))
+    kw.each{|method, args| subklass.send(method, *args)}
+    subklass.class_eval(&block) if block
+    return subklass
   end
 end

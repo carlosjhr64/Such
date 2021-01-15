@@ -20,7 +20,7 @@ module Such
   SUBKLASS = []
   KLASS = []
   INCLUDING = []
-  def self.subclass(subklass:, klass:, including:)
+  def self.subclass(subklass, klass, including:)
     SUBKLASS.push subklass
     KLASS.push klass
     INCLUDING.push including

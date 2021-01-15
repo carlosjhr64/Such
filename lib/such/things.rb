@@ -7,10 +7,9 @@ module Such
     def self.in(superklass)
       Things.list(superklass).each do |klass|
         begin
-          Such.subclass(
-            subklass:  klass.name.sub(/^.*::/,'').to_sym,
-            klass:     klass,
-            including: Such::Thing)
+          Such.subclass(klass.name.sub(/^.*::/,'').to_sym,
+                        klass,
+                        including: Such::Thing)
         rescue
           $stderr.puts "#{$!.class}:\t#{superklass}" if $VERBOSE
         end

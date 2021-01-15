@@ -1,6 +1,6 @@
 # Such
 
-* [VERSION 1.0.210114](https://github.com/carlosjhr64/such/releases)
+* [VERSION 1.0.210115](https://github.com/carlosjhr64/such/releases)
 * [github](https://www.github.com/carlosjhr64/such)
 * [rubygems](https://rubygems.org/gems/such)
 
