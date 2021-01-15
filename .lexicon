@@ -19,6 +19,7 @@ const_defined
 const_get
 const_set
 container
+define_method
 detect
 do_config
 do_links
@@ -86,6 +87,7 @@ shift
 signal
 signal_connect
 signals
+singleton_class
 String
 sub
 subclass
