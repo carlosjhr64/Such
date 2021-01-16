@@ -1,11 +1,7 @@
 #! ruby
 require 'gtk3'
 require 'such'
-Such::Things.gtk_widget
-
-module Empty
-  STRING, ARRAY, HASH = ''.freeze, [].freeze, {}.freeze
-end
+Such::Things.in Gtk::Widget
 
 Such::Thing.configure(
   button_size: {set_size_request: [30,70]},
@@ -20,7 +16,7 @@ Such::Thing.configure(
 
   # The :mybox! Vertical Box
   MYBOX: [:vertical],
-  mybox!: [:MYBOX, Empty::HASH, Empty::STRING],
+  mybox!: [:MYBOX, {}, ''],
 
   # The :app! Window
   app: {
@@ -30,16 +26,15 @@ Such::Thing.configure(
     set_window_position: :center,
   },
   app!: [:app, 'destroy']
-
 )
 
 # App will be a Window that connects to a MyBox.new(:mybox!)
-Such::Parts.make('App', 'Window', :mybox_MyBox)
+Such::Parts.make(:App, Such::Window, :mybox_MyBox)
 # MyBox will be a Box that connects to a Button.new(:x!) and Button.new(:y!)
-Such::Parts.make('MyBox', 'Box', :x_Button, :y_Button)
+Such::Parts.make(:MyBox, Such::Box, :x_Button, :y_Button)
 
 # Note that all connected widgets can respond to the block given.
-app = Such::App.new :app! do |widget, *w, signal|
+app = Such::App.new(:app!) do |widget, *w, signal|
   case widget
   when Such::Window
     Gtk.main_quit if signal=='destroy'

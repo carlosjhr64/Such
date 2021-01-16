@@ -9,7 +9,7 @@ module Such
         begin
           Such.subclass(klass.name.sub(/^.*::/,'').to_sym,
                         klass,
-                        including: Such::Thing)
+                        include: Such::Thing)
         rescue
           $stderr.puts "#{$!.class}:\t#{superklass}" if $VERBOSE
         end

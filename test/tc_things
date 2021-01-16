@@ -19,11 +19,11 @@ module Such
 
   SUBKLASS = []
   KLASS = []
-  INCLUDING = []
-  def self.subclass(subklass, klass, including:)
+  KW = []
+  def self.subclass(subklass, klass, **kw)
     SUBKLASS.push subklass
     KLASS.push klass
-    INCLUDING.push including
+    KW.push kw
   end
 end
 
@@ -36,6 +36,7 @@ class TestThings < Test::Unit::TestCase
     Such::Things.in(Gtk::Widget)
     assert_equal([:C, :B, :A], Such::SUBKLASS)
     assert_equal([Gtk::C, Gtk::B, Gtk::A], Such::KLASS)
-    assert_equal([Such::Thing, Such::Thing, Such::Thing], Such::INCLUDING)
+    kw = {include: Such::Thing}
+    assert_equal([kw,kw,kw], Such::KW)
   end
 end
