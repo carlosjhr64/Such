@@ -50,6 +50,9 @@ length
 list
 m
 make
+match
+maybe
+md
 merge
 message
 method
@@ -74,6 +77,7 @@ Part
 Parts
 plg
 plug
+PLUG_PATTERN
 plugs
 push
 puts

@@ -14,9 +14,7 @@ end
 
 class A < Abc
   attr_accessor :b_B, :c_C
-  def self.plugs
-    [:b_B, :c_C]
-  end
+  def self.plugs = [:b_B, :c_C]
   include Such::Part
 end
 
@@ -27,8 +25,18 @@ class B < Abc
 end
 
 class C < Abc
+  attr_accessor :d_D
+  def self.plugs = [:d_D]
   def message(k,v)
     @value = v if k == :c
+    super
+  end
+  include Such::Part
+end
+
+class D < Abc
+  def message(k,v)
+    @value = v if k == :d
   end
 end
 end
@@ -48,7 +56,10 @@ class TestPart < Test::Unit::TestCase
     assert_equal 'Hello',  a.b_B.value
     assert_equal 'World!', a.c_C.value
 
-    assert_nil a.d_D
+    assert_nil a.e_E
     assert_raises(NoMethodError){a.this_method_missing}
+
+    a.message :d, 'Hail Mary Message!'
+    assert_equal 'Hail Mary Message!', a.d_D.value
   end
 end

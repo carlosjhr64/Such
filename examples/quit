@@ -1,7 +1,7 @@
 #! ruby
 require 'gtk3'
 require 'such'
-include Such; Things.gtk_widget
+include Such; Things.in Gtk::Widget
 
 Thing.configure(
   window:  {

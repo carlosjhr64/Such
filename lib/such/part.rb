@@ -1,29 +1,33 @@
 module Such
   module Part
+    PLUG_PATTERN = /^(?<sym>[^\W_]+)_(?<cls>[^\W_]+)$/
+
     def initialize(*parameters, &block)
       super(*parameters)
       self.class.plugs.each do |plg|
-        if /^(?<sym>[^\W_]+)_(?<cls>[^\W_]+)$/=~plg
-          plg, sym, cls = method("#{plg}="), "#{sym}!".to_sym, Object.const_get("Such::#{cls}")
-          plg.call cls.new(self, sym, &block)
+        if md = PLUG_PATTERN.match(plg)
+          plg, sym, cls = "#{plg}=".to_sym, "#{md[:sym]}!".to_sym, Object.const_get("Such::#{md[:cls]}")
+          # self.<plg> = Such::<cls>.new(self, :<sym>!, &block)
+          send plg, cls.new(self, sym, &block)
         end
       end
     end
 
     def message(*parameters)
-      self.class.plugs.each{|plg| method(plg).call.message(*parameters)}
+      self.class.plugs.each{|plg| send(plg).message(*parameters) }
     end
 
-    def method_missing(plug,*args) # assuming a plug
-      super unless args.length==0 and plug=~/^[^\W_]+_[^\W_]+$/
-      obj = nil
-      self.class.plugs.each do |plg|
-        plug = method(plg).call
-        if plug.is_a? Such::Part
-          break if obj = plug.method(plg).call
+    def method_missing(maybe,*args) # maybe a plug down the plugged things.
+      super unless args.length==0 and PLUG_PATTERN.match?(maybe)
+      self.class.plugs.each do |plug|
+        thing = send(plug)
+        if thing.is_a? Such::Part
+          if obj = thing.send(maybe)
+            return obj
+          end
         end
       end
-      return obj
+      return nil
     end
   end
 end
