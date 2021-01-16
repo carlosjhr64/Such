@@ -1,5 +1,5 @@
 module Such
-  VERSION = '1.0.210115'
+  VERSION = '1.0.210116'
 end
 require 'such/such'
 require 'such/thing'

@@ -22,9 +22,9 @@ class TestParts < Test::Unit::TestCase
     # Plug must be in the form :key_class
     assert_raises(RuntimeError){Such::Parts.make(:Part, :Thingy, :plug)}
 
-    part, thing, kw = Such::Parts.make(:Part, :Thingy, :a_Abc, :xyz_Xyz)
+    part, thing, kw = Such::Parts.make(:Part, Such::Thingy, :a_Abc, :xyz_Xyz)
     assert_equal :Part, part
-    assert_equal :Thingy, thing
+    assert_equal Such::Thingy, thing
     assert_equal Hash, kw.class
     h = {attr_accessor: [:a_Abc, :xyz_Xyz], include: Such::Part}
     assert_equal h, kw
