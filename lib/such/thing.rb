@@ -72,7 +72,7 @@ module Such
           mthd=Thing.which_method(container)
         end
         Thing.trace_method(container, mthd, [obj.class,*args]) if $VERBOSE
-        container.method(mthd).call(obj, *args)
+        container.public_send(mthd, obj, *args)
       else
         warn "Warning: Container for #{self.class} not given."
       end

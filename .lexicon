@@ -79,6 +79,7 @@ plg
 plug
 PLUG_PATTERN
 plugs
+public_send
 push
 puts
 raise
@@ -86,7 +87,6 @@ require
 respond_to
 Ruby30
 select
-send
 set_submenu
 shift
 signal
