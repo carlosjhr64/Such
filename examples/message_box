@@ -55,24 +55,28 @@ Thing.configure(
 
 def on_info
   md = MessageDialog.new :INFO_DIALOG
+  p md.message_type
   md.transient_for = @window
   md.run; md.destroy
 end
 
 def on_erro
   md = MessageDialog.new :ERRO_DIALOG
+  p md.message_type
   md.transient_for = @window
   md.run; md.destroy
 end
 
 def on_ques
   md = MessageDialog.new :QUES_DIALOG
+  p md.message_type
   md.transient_for = @window
   md.run; md.destroy
 end
 
 def on_warn
   md = MessageDialog.new :WARN_DIALOG
+  p md.message_type
   md.transient_for = @window
   md.run; md.destroy
 end
