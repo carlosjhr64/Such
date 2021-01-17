@@ -93,7 +93,6 @@ signal
 signal_connect
 signals
 singleton_class
-start_with
 String
 sub
 subclass

@@ -1,8 +1,8 @@
 module Such
   module Parts
     def self.make(part, thing, *plugs)
-      unless thing.is_a? Class and thing.name.start_with? 'Such::' and [part,*plugs].all?{_1.is_a? Symbol}
-        raise "Expecting Such::Parts.make(Symbol part, Such::Class thing, *Symbol plugs)"
+      unless thing < Such::Thing and [part,*plugs].all?{_1.is_a? Symbol}
+        raise "Expected Such::Parts.make(Symbol part, Class thing < Such::Thing, *Symbol plugs)"
       end
       plugs.each do |plug|
         if /^[^\W_]+_(?<klass>[^\W_]+)$/=~plug

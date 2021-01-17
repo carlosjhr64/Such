@@ -7,24 +7,31 @@ module Such
     [name, klass, kw]
   end
 
+  module Thing
+  end
+
   module Part
   end
 
-  class Thingy
+  class Item
+    include Thing
+  end
+
+  class Zingy
   end
 end
 
 class TestParts < Test::Unit::TestCase
   def test_make
-    # No such class "Zingy" for a superclass
-    assert_raises(RuntimeError){Such::Parts.make(:Part, :Zingy, :plug_Whatchamacallit)}
+    # Such::Zingy not a Such::Thing
+    assert_raises(RuntimeError){Such::Parts.make(:Piece, Such::Zingy, :plug_Whatchamacallit)}
 
     # Plug must be in the form :key_class
-    assert_raises(RuntimeError){Such::Parts.make(:Part, :Thingy, :plug)}
+    assert_raises(RuntimeError){Such::Parts.make(:Piece, Such::Item, :plug)}
 
-    part, thing, kw = Such::Parts.make(:Part, Such::Thingy, :a_Abc, :xyz_Xyz)
-    assert_equal :Part, part
-    assert_equal Such::Thingy, thing
+    part, thing, kw = Such::Parts.make(:Piece, Such::Item, :a_Abc, :xyz_Xyz)
+    assert_equal :Piece, part
+    assert_equal Such::Item, thing
     assert_equal Hash, kw.class
     h = {attr_accessor: [:a_Abc, :xyz_Xyz], include: Such::Part}
     assert_equal h, kw
