@@ -92,6 +92,7 @@ shift
 signal
 signal_connect
 signals
+SIGNALS
 singleton_class
 String
 sub

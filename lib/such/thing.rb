@@ -1,6 +1,7 @@
 module Such
   module Thing
-    INTOS = [:set_submenu, :pack_start, :append, :add]
+    SIGNALS = ['clicked']
+    INTOS   = [:set_submenu, :pack_start, :append, :add]
 
     PARAMETERS = {}
     def self.configure(conf)
@@ -92,7 +93,7 @@ module Such
 
     def self.do_methods(obj, methods, container=nil)
       # If user does not specify how to add to container, assume default way.
-      methods[:into]=Thing.which_method(container) if container and !methods.has_key?(:into)
+      methods[:into]=Thing.which_method(container) if container and not methods.has_key?(:into)
       methods.each do |mthd, args|
         (mthd==:into)? Thing.into(obj, container, *args) :
                        Thing.do_method(obj, mthd, *args)
@@ -103,7 +104,7 @@ module Such
       return if signals.first==''
       none = (signals.length==0)
       if block
-        signals.push('clicked') if none
+        signals.push(*SIGNALS) if none
         signals.each do |signal|
           break if signal==''
           begin
