@@ -9,7 +9,7 @@
 Wraps widgets with an alternate constructor
 which factors out the configuration and assembly procedures into metadata.
 Can be used to wrap any class with the alternate constructor,
-although currently only Gtk3 widgets is supported.
+although targeted only Gtk3 widgets.
 
 ## INSTALL:
 
@@ -22,19 +22,21 @@ $ sudo gem install such
 ```ruby
 require 'gtk3'
 require 'such'
-include Such; Things.gtk_widget
+include Such; Things.in Gtk::Widget
 
 Thing.configure window: {
                   set_title: 'Synopsis Example',
-                  set_window_position: :center },
+                  set_window_position: :center},
                 BUTTON: [label: 'Button!'],
-                button: {set_size_request: [100,50], into:[:add]}
+                button: {
+                  set_size_request: [100,50],
+                  into:[:add]}
 
-window = Window.new(:window, 'destroy'){Gtk.main_quit}
-  Button.new(window, :button!){puts 'Button pressed!'}
+window = Window.new(:window, 'destroy'){Gtk.main_quit} #~> Such::Window
+Button.new(window, :button!){puts 'Button pressed!'}   #~> Such::Button
 window.show_all
 
-Gtk.main
+Gtk.main #=> nil
 ```
 
 ## MORE:
@@ -44,9 +46,14 @@ Hashes are method=>arguments pairs, and Strings are signals.
 Other objects are assumed to be containers:
 
 ```ruby
-Such::Button.new(window, [label: 'Hello!'], {set_size_request:[100,50]}, 'clicked' ){puts 'OK'}
+Such::Button.new(
+  window,
+  [label: 'Hello!'],
+  {set_size_request:[100,50]},
+  'clicked'
+  ){ puts 'OK'}
 
-# Is equivalent to
+# Is equivalent to:
 
 button = Gtk::Button.new(label:'Hello!')
 window.add button
@@ -54,12 +61,12 @@ button.set_size_request 100, 50
 button.signal_connect('clicked'){puts 'OK'}
 ```
 
-To set the packing method to say, :pack_start, set the :into method as follows:
+To set the packing method to say `:pack_start`, set the `:into` method as follows:
 
 ```ruby
-   {into: [:pack_start, expand:false, fill:false, padding:0]}
-   # The effect in the contructor will be as if the following was run:
-   #    container.pack_start(self, expand:false, fill:false, padding:0)
+{into: [:pack_start, expand:false, fill:false, padding:0]}
+# The effect in the contructor will be as if the following was run:
+#   container.pack_start(self, expand:false, fill:false, padding:0)
 ```
 
 One can configure Symbol keys to represent metadata about a widget:
@@ -90,9 +97,9 @@ ZetCode.com[http://zetcode.com/gui/rubygtk/] (back in 2015).
 
 ## But wait!  One more thing:
 
-See link:examples/such_parts_demo in the examples directory
-and link:test/tc_part for hints on how to use the much powerful
-Such::Part module link:lib/such/part.rb
+See [such_parts_demo](examples/such_parts_demo) in the examples directory
+and [tc_part](test/tc_part) for hints on how to use the powerful
+[Such::Part module](lib/such/part.rb).
 
 ## LICENSE:
 
