@@ -11,3 +11,5 @@ b358f1cdb8be74e70826b591a5ae17a0  pkg/such-0.2.1.gem
 15c4f49919cf484d3e72051fe7ce2e7a  pkg/such-0.3.0.gem
 === 0.4.0 / 2017-07-31 15:02:28 -0700
 b42f3cd610bc7bec7edb69abf5c238bd  pkg/such-0.4.0.gem
+# 1.0.210117 / 2021-01-17 08:25:22 -0800
+1c23b0cfb1fff67f5a9dc5c12eb121ba  pkg/such-1.0.210117.gem
