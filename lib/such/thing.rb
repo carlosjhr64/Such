@@ -3,9 +3,12 @@ module Such
     SIGNALS = ['clicked']
     INTOS   = [:set_submenu, :pack_start, :append, :add]
 
-    PARAMETERS = {}
+    # PARAMETERS' pretense of being a Hash constant :P
+    @@PARAMETERS = {}
+    PARAMETERS = lambda{|k| @@PARAMETERS[k]}
+    def PARAMETERS.to_h = @@PARAMETERS
     def self.configure(conf)
-      PARAMETERS.merge! conf
+      @@PARAMETERS = conf
     end
 
     def self.trace_method(obj, mthd, args)
@@ -17,8 +20,8 @@ module Such
     end
 
     def self.do_symbol(parameter, parameters)
-      if PARAMETERS.has_key?(parameter)
-        p = PARAMETERS[parameter]
+      if @@PARAMETERS.has_key?(parameter)
+        p = @@PARAMETERS[parameter]
         (parameter[-1]=='!')? parameters.unshift(*p) : parameters.unshift(p)
       else
         if parameter[-1]=='!'

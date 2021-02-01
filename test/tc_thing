@@ -3,7 +3,7 @@ require 'stringio'
 require 'test/unit'
 require 'such/thing'
 # Clear PARAMETERS of any defaults
-Such::Thing::PARAMETERS.clear
+Such::Thing::PARAMETERS.to_h.clear
 # Set INTOS to use :pack or :add
 Such::Thing::INTOS.replace [:pack, :add]
 
@@ -105,21 +105,22 @@ class TestThing < Test::Unit::TestCase
     # I Haz PARAMETERS
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
-      assert_equal(p.class, Hash)
+      assert_equal(p.class, Proc)
+      assert_equal(p.to_h.class, Hash)
     end
   end
 
   def test_configure
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
-      p.clear
+      p.to_h.clear
       Such::Thing.configure(
         a: 'A',
         b: 'B',
         c: 'C',
       )
-      assert_equal({a:'A',b:'B',c:'C'}, p)
-      p.clear
+      assert_equal({a:'A',b:'B',c:'C'}, p.to_h)
+      p.to_h.clear
     end
   end
 
@@ -142,9 +143,10 @@ class TestThing < Test::Unit::TestCase
   def test_do_symbol
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
-      p.clear
+      h = p.to_h
+      h.clear
 
-      p[:A]=[1,2,3]; p[:a]='a'; p[:a!]=[:A,:a,'a']
+      h[:A]=[1,2,3]; h[:a]='a'; h[:a!]=[:A,:a,'a']
 
       x = ['b','c']
       out = TestThing.capture_stderr{ Such::Thing.do_symbol(:a, x) }
@@ -172,15 +174,16 @@ class TestThing < Test::Unit::TestCase
       assert_equal('', out)
       assert_equal([:B,:b,'b','c'], x)
 
-      p.clear
+      h.clear
     end
   end
 
   def test_do_parameters
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
-      p.clear
-      p[:A]=[1,2,3]; p[:a]={a:'a'}; p[:a!]=[:A,:a,'a']
+      h = p.to_h
+      h.clear
+      h[:A]=[1,2,3]; h[:a]={a:'a'}; h[:a!]=[:A,:a,'a']
 
       c, a, m, s = Such::Thing.do_parameters([:a!])
       assert_equal([nil, [1,2,3],  {a:'a'}, ['a']], [c,a,m,s])
@@ -189,7 +192,7 @@ class TestThing < Test::Unit::TestCase
       c, a, m, s = Such::Thing.do_parameters([b, :a!])
       assert_equal([b, [1,2,3],  {a:'a'}, ['a']], [c,a,m,s])
 
-      p.clear
+      h.clear
     end
   end
 
@@ -270,9 +273,10 @@ class TestThing < Test::Unit::TestCase
   def test_do_config
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
-      p.clear
+      h = p.to_h
+      h.clear
 
-      p[:OK] = {does:['OK','I','get','it']}
+      h[:OK] = {does:['OK','I','get','it']}
       obj = SuchClass.new
       out = TestThing.capture_stderr{ Such::Thing.do_config(obj, :OK, 'Ok'){true} }
       assert_equal('', out)
@@ -283,7 +287,7 @@ class TestThing < Test::Unit::TestCase
       out = TestThing.capture_stderr{ Such::Thing.do_config(obj, [1,2,3]) }
       assert_match(/^Warning:/, out)
 
-      p.clear
+      h.clear
     end
   end
 
@@ -385,14 +389,15 @@ class TestThing < Test::Unit::TestCase
   def test_translation
     assert_nothing_raised() do
       p = Such::Thing::PARAMETERS
-      p[:A] = [1,2,3]
-      p[:a] = {does: 'X'}
-      p[:a!] = [:A,:a,'x']
+      h = p.to_h
+      h[:A] = [1,2,3]
+      h[:a] = {does: 'X'}
+      h[:a!] = [:A,:a,'x']
       many = ManySuchClass.new(:a!){ true }
       assert_equal([1,2,3], many.v)
       assert_equal(['X'], many.done)
       assert_equal(['x'], many.signals)
-      p.clear # restore to clear
+      h.clear # restore to clear
     end
   end
 end

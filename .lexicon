@@ -44,8 +44,10 @@ into
 INTOS
 is_a
 join
+k
 klass
 kw
+lambda
 length
 list
 m
@@ -105,6 +107,7 @@ Symbol
 thing
 Thing
 Things
+to_h
 to_sym
 trace_method
 trace_signal
