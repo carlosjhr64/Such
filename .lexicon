@@ -2,7 +2,6 @@ _1
 add
 all
 append
-arg
 args
 ArgumentError
 arguments
@@ -46,7 +45,6 @@ into
 INTOS
 is_a
 join
-k
 klass
 lambda
 length

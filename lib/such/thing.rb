@@ -5,7 +5,7 @@ module Such
 
     # PARAMETERS' pretense of being a Hash constant :P
     @@PARAMETERS = {}
-    PARAMETERS = lambda{|k| @@PARAMETERS[k]}
+    PARAMETERS = lambda{@@PARAMETERS[_1]}
     def PARAMETERS.to_h = @@PARAMETERS
     def self.configure(conf)
       @@PARAMETERS = conf
@@ -61,7 +61,7 @@ module Such
     end
 
     def self.which_method(container, methods=INTOS)
-      mthd = methods.detect{|m| container.respond_to?(m)}
+      mthd = methods.detect{container.respond_to?_1}
       raise "Don't know how to put into #{container.class}." if mthd.nil?
       return mthd
     end
@@ -90,7 +90,7 @@ module Such
       rescue ArgumentError, TypeError
         # Assume user meant to iterate. Note that the heuristic is not perfect.
         $stderr.puts "# Iterated Method #{mthd}." if $VERBOSE
-        [*args].each{|arg| m.call(*arg)}
+        [*args].each{m.call(*_1)}
       end
     end
 
