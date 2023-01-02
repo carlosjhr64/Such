@@ -1,6 +1,6 @@
 # Such
 
-* [VERSION 2.0.210201](https://github.com/carlosjhr64/such/releases)
+* [VERSION 2.0.230102](https://github.com/carlosjhr64/such/releases)
 * [github](https://www.github.com/carlosjhr64/such)
 * [rubygems](https://rubygems.org/gems/such)
 
@@ -105,7 +105,7 @@ and [tc_part](test/tc_part) for hints on how to use the powerful
 
 (The MIT License)
 
-Copyright (c) 2021 CarlosJHR64
+Copyright (c) 2023 CarlosJHR64
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

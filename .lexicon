@@ -87,7 +87,7 @@ puts
 raise
 require
 respond_to
-Ruby30
+Ruby31
 select
 set_submenu
 shift
