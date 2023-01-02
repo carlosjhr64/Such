@@ -8,6 +8,7 @@ ArgumentError
 arguments
 Array
 attr_accessor
+autoload
 block
 call
 class
