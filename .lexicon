@@ -39,6 +39,7 @@ Hash
 has_key
 in
 include
+including
 initialize
 into
 INTOS
@@ -46,7 +47,6 @@ is_a
 join
 k
 klass
-kw
 lambda
 length
 list
@@ -60,6 +60,7 @@ message
 method
 method_missing
 methods
+mods
 mthd
 name
 new
@@ -98,12 +99,15 @@ SIGNALS
 singleton_class
 String
 sub
+sub_class
 subclass
 subklass
 Such
+super_class
 superklass
 sym
 Symbol
+these
 thing
 Thing
 Things
