@@ -36,6 +36,8 @@ class TestConvention < Test::Unit::TestCase
     abc!: [:just, :symbols, 'and', 'strings'],
     # Camel!
     Abc!: 'any items',
+    Xyz!: {any: ['items']},
+    Really!: ['any', {items:'whatsoever'}],
     # Any?
     Abc?: true,
     abc?: false,
