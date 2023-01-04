@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
 
   s.homepage = 'https://github.com/carlosjhr64/such'
 
-  s.author   = 'carlosjhr64'
+  s.author   = 'CarlosJHR64'
   s.email    = 'carlosjhr64@gmail.com'
 
   s.date     = '2023-01-04'
@@ -29,6 +29,7 @@ SUMMARY
   s.files = %w(
 README.md
 lib/such.rb
+lib/such/convention.rb
 lib/such/part.rb
 lib/such/parts.rb
 lib/such/such.rb
