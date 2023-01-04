@@ -1,0 +1,65 @@
+#! ruby
+require 'test/unit'
+require 'such/convention'
+
+class TestConvention < Test::Unit::TestCase
+  BAD_CONFIG = {
+    'String' => 'Do not use String keys',
+    ABC: 'CAPS should be array',
+    XYZ: ['Must be valid items, not', /regexp/],
+    abc: 'lower should be hash',
+    xyz: {x: 'ok', z: ['also','ok'], y: /not ok/},
+    Abc: ['Must', 'be', 'item'],
+    Xyz: {must: 'be', an: 'item'},
+    Item: /still not item/,
+    ABC!: [{not: 'just'},:any,1,'array'],
+    abc!: [:not_just,{any:1},'array'],
+    Abc!: /any valid items/,
+    Abc?: 'Must be true, false or nil',
+  }
+  GOOD_CONFIG = {
+    # Camel
+    String: 'One',
+    Float: 2.0,
+    Integer: 3,
+    Symbol: :four,
+    True: true,
+    False: false,
+    Nil: nil,
+    # CAPS
+    ABC: ['Any',:item,{array:1}],
+    # lower
+    abc: {any:'Hash',values:[1,2,3]},
+    # CAPS!
+    ABC!: [{just: 'hash'},['array',:or],'string'],
+    # lower!
+    abc!: [:just, :symbols, 'and', 'strings'],
+    # Camel!
+    Abc!: 'any items',
+    # Any?
+    Abc?: true,
+    abc?: false,
+    ABC?: nil,
+  }
+
+  def test_good_config
+    errors = Such::Convention.validate GOOD_CONFIG
+    assert_nil errors
+  end
+
+  def test_bad_config
+    errors = Such::Convention.validate BAD_CONFIG
+    assert_equal 'unrecognized key', errors['String']
+    assert_equal 'unrecognized array', errors[:ABC]
+    assert_equal 'unrecognized array', errors[:XYZ]
+    assert_equal 'unrecognized hash', errors[:abc]
+    assert_equal 'unrecognized hash', errors[:xyz]
+    assert_equal 'unrecognized item', errors[:Abc]
+    assert_equal 'unrecognized item', errors[:Xyz]
+    assert_equal 'unrecognized item', errors[:Item]
+    assert_equal 'unrecognized explicit array', errors[:ABC!]
+    assert_equal 'unrecognized symbolic array', errors[:abc!]
+    assert_equal 'unrecognized items', errors[:Abc!]
+    assert_equal 'unrecognized boolean', errors[:Abc?]
+  end
+end
