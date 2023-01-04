@@ -6,7 +6,9 @@ module Such
       super(*parameters)
       self.class.plugs.each do |plg|
         if md = PLUG_PATTERN.match(plg)
-          plg, sym, cls = "#{plg}=".to_sym, "#{md[:sym]}!".to_sym, Object.const_get("Such::#{md[:cls]}")
+          plg,sym,cls = "#{plg}=".to_sym,
+                        "#{md[:sym]}!".to_sym,
+                        Object.const_get("Such::#{md[:cls]}")
           # self.<plg> = Such::<cls>.new(self, :<sym>!, &block)
           public_send plg, cls.new(self, sym, &block)
         end
