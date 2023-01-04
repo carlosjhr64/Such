@@ -69,7 +69,7 @@ module Such
     def self.into(obj, container=nil, mthd=nil, *args)
       if container
         if mthd
-          unless mthd.class==Symbol and container.respond_to?(mthd)
+          unless container.respond_to?(mthd)
             raise "Need container & method. Got #{container.class}##{mthd}(#{obj.class}...)"
           end
         else
@@ -105,9 +105,8 @@ module Such
 
     def self.do_links(obj, signals, block)
       return if signals.first==''
-      none = (signals.length==0)
       if block
-        signals.push(*SIGNALS) if none
+        signals=SIGNALS if signals.empty?
         signals.each do |signal|
           break if signal==''
           begin
@@ -117,11 +116,15 @@ module Such
             warn "Warning: no #{signal} signal for #{obj.class}"
           end
         end
-      elsif not none
+      elsif !signals.empty?
         warn "Warning: No block given for #{signals.join(',')} on #{obj.class}."
       end
     end
 
+    # Given an Object not sub-classed as a Thing:
+    #   obj = NotAThing.new
+    # One can still act on it like a Thing as follows:
+    #   Thing.do_config(obj, *parameters, &block)
     def self.do_config(obj, *parameters, &block)
       container, arguments, methods, signals = Thing.do_parameters(parameters)
       Thing.do_methods(obj, methods, container)
@@ -129,6 +132,7 @@ module Such
       warn "Warning: arguments not used in do_config(#{obj.class}...)." if arguments.length > 0
     end
 
+    # The alternate sub-class constructor:
     def initialize(*parameters, &block)
       container, arguments, methods, signals = Thing.do_parameters(parameters)
       super(*arguments)

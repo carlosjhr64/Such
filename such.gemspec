@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'such'
-  s.version  = '2.0.230103'
+  s.version  = '2.0.230104'
 
   s.homepage = 'https://github.com/carlosjhr64/such'
 
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2023-01-02'
+  s.date     = '2023-01-04'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -36,6 +36,6 @@ lib/such/thing.rb
 lib/such/things.rb
   )
 
-  s.requirements << 'ruby: ruby 3.0.0p0 (2020-12-25 revision 95aff21468) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [aarch64-linux]'
 
 end

@@ -45,6 +45,7 @@ mthd
 NilClass
 NONINFRINGEMENT
 NoSignalError
+NotAThing
 obj
 ObjectSpace
 org
