@@ -36,6 +36,6 @@ lib/such/thing.rb
 lib/such/things.rb
   )
 
-  s.requirements << 'ruby: ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [aarch64-linux]'
+  s.requirements << 'ruby: ruby 3.2.0 (2022-12-25 revision a528908271) [aarch64-linux]'
 
 end

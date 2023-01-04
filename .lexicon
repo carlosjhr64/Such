@@ -108,7 +108,7 @@ refine
 Refinements
 require
 respond_to
-Ruby31
+Ruby32
 select
 set_submenu
 shift
