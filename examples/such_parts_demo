@@ -14,6 +14,10 @@ Such::Thing.configure(
   Y: [label: 'Y'],
   y: :button_size,
 
+  # The :z! Button
+  Z: [label: 'Z'],
+  z: :button_size,
+
   # The :mybox! Vertical Box
   MYBOX: [:vertical],
   mybox!: [:MYBOX, {}, ''],
@@ -31,7 +35,7 @@ Such::Thing.configure(
 # App will be a Window that connects to a MyBox.new(:mybox!)
 Such::Parts.make(:App, Such::Window, :mybox_MyBox)
 # MyBox will be a Box that connects to a Button.new(:x!) and Button.new(:y!)
-Such::Parts.make(:MyBox, Such::Box, :x_Button, :y_Button)
+Such::Parts.make(:MyBox, Such::Box, :x_Button, :y_Button, :z_Button)
 
 # Note that all connected widgets can respond to the block given.
 app = Such::App.new(:app!) do |widget, *w, signal|
@@ -39,9 +43,34 @@ app = Such::App.new(:app!) do |widget, *w, signal|
   when Such::Window
     Gtk.main_quit if signal=='destroy'
   when Such::Button
-    puts widget.label if signal=='clicked'
+    if signal=='clicked'
+      case widget.label
+      when /^X/
+        app.message(:red)
+        X.set_label 'X: :D'
+        Y.set_label 'Y: :('
+        Z.set_label 'Z: Noooo!'
+      when /^Y/
+        app.message(:green)
+        X.set_label 'X: Wut???'
+        Y.set_label 'Y: Ha ha!'
+        Z.set_label 'Z: :P'
+      when /^Z/
+        app.message(:blue)
+        X.set_label 'X: Oh no you didnt!!!'
+        Y.set_label 'Y: Figures...'
+        Z.set_label 'Z: Yeah baby!'
+      end
+    end
   end
 end
-app.show_all
 
+# Demonstrates app's missing_method search for the plugs:
+X,Y,Z = app.x_Button,app.y_Button,app.z_Button
+# Demonstrates broadcast messaging
+def X.message(color) = override_color(:normal,color)
+def Y.message(color) = override_color(:normal,{red: :blue, green: :red, blue: :green}[color])
+def Z.message(color) = override_color(:normal,{red: :green, green: :blue, blue: :red}[color])
+
+app.show_all
 Gtk.main
