@@ -15,11 +15,18 @@ module Such
       end
     end
 
+    # Each part\Such::Part can invoke `message` on each of its connected part,
+    # and so on...
+    # Any part can override its `message` method to act as a terminal node or
+    # modify its relay behavior.
     def message(*parameters)
       self.class.plugs.each{|plg| public_send(plg).message(*parameters) }
     end
 
-    def method_missing(maybe,*args) # maybe a plug down the plugged things.
+    # Maybe a plug down the plugged things responds?
+    # This is a search through the connections which
+    # returns the first(non-nil) response.
+    def method_missing(maybe,*args)
       super unless args.length==0 and PLUG_PATTERN.match?(maybe)
       self.class.plugs.each do |plug|
         thing = public_send(plug)
