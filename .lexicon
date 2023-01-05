@@ -64,7 +64,6 @@ key_items
 key_symbol
 key_symbolic_array
 key_value
-klass
 lambda
 length
 list
@@ -121,7 +120,6 @@ String
 sub
 sub_class
 subclass
-subklass
 Such
 super_class
 sym

@@ -36,7 +36,6 @@ gtk
 Gtk
 gui
 INTOS
-klass
 md
 meth
 meth
@@ -55,7 +54,6 @@ rubygems
 rubygtk
 submenu
 stderr
-subklass
 sublicense
 sudo
 sym
