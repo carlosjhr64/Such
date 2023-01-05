@@ -64,6 +64,7 @@ item_explicit_array
 item_hash
 items
 item_symbol
+item_tangible
 item_value
 join
 k

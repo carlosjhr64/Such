@@ -5,6 +5,7 @@ module Such
   module Convention
     module Refinements
       refine Object do
+        # Atoms
         def item_symbol?
           is_a?Symbol and match?(/^\w+[!?]?$/)
         end
@@ -14,17 +15,22 @@ module Such
         def item_value?
           [String,Float,Integer].any?{is_a?_1}
         end
-        def item?
-          item_symbol? or item_value?
+        # Item
+        def item_tangible?
+          item_value? or item_symbol?
         end
+        def item?
+          item_tangible? or item_boolean?
+        end
+        # Items
         def items?
           item? or item_array? or item_hash?
         end
         def item_hash?
-          is_a?Hash and all?{_1.item_symbol? and _2.items?}
+          is_a?Hash and all?{_1.item_symbol? and (_2.nil? or _2.items?)}
         end
         def item_array?
-          is_a?Array and all?{_1.items?}
+          is_a?Array and all?{_1.nil? or _1.items?}
         end
         def item_bang_array?
           is_a?Array and
@@ -59,7 +65,7 @@ module Such
       when CAPS   # ABC
         raise 'unrecognized item array'     unless v.item_array?
       when WORD   # Abc
-        raise 'unrecognized item'           unless v.item?
+        raise 'unrecognized item tangible'  unless v.item_tangible?
       when LOWER1 # abc!
         raise 'unrecognized bang array'     unless v.item_bang_array?
       when CAPS1  # ABC!
@@ -69,9 +75,9 @@ module Such
       when LOWER2 # abc?
         raise 'unrecognized boolean'        unless v.item_boolean?
       when CAPS2  # ABC?
-        raise 'unrecognized nil|boolean'    unless v.nil? or v.item_boolean?
+        raise 'unrecognized boolean|nil'    unless v.nil? or v.item_boolean?
       when WORD2  # Abc?
-        raise 'unrecognized nil|item'       unless v.nil? or v.item?
+        raise 'unrecognized item value|nil' unless v.nil? or v.item_tangible?
       else
         raise 'should not happen'
       end
