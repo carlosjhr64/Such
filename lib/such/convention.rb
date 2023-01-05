@@ -5,54 +5,73 @@ module Such
   module Convention
     module Refinements
       refine Object do
-        def key_symbol?
+        def item_symbol?
           is_a?Symbol and match?(/^\w+[!?]?$/)
         end
-        def key_boolean?
-          [TrueClass,FalseClass,NilClass].any?{is_a?_1}
+        def item_boolean?
+          [TrueClass,FalseClass].any?{is_a?_1}
         end
-        def key_value?
+        def item_value?
           [String,Float,Integer].any?{is_a?_1}
         end
-        def key_item?
-          key_symbol? or key_value? or key_boolean?
+        def item?
+          item_symbol? or item_value?
         end
-        def key_items?
-          key_item? or key_array? or key_hash?
+        def items?
+          item? or item_array? or item_hash?
         end
-        def key_hash?
-          is_a?Hash and all?{_1.key_symbol? and _2.key_items?}
+        def item_hash?
+          is_a?Hash and all?{_1.item_symbol? and _2.items?}
         end
-        def key_array?
-          (is_a?Array and all?{_1.key_items?})
+        def item_array?
+          is_a?Array and all?{_1.items?}
         end
-        def key_symbolic_array?
-          (is_a?Array and all?{_1.is_a?String or _1.key_symbol?})
+        def item_bang_array?
+          is_a?Array and
+          all?{_1.is_a?Symbol or _1.is_a?String or
+               _1.item_array? or _1.item_hash?}
         end
-        def key_explicit_array?
-          (is_a?Array and all?{_1.is_a?String or _1.key_array? or _1.key_hash?})
+        def item_explicit_array?
+          is_a?Array and
+          all?{_1.is_a?String or _1.item_array? or _1.item_hash?}
         end
       end
     end
+
+    CAPS   = /^[A-Z_]+$/
+    CAPS1  = /^[A-Z_]+!$/
+    CAPS2  = /^[A-Z_]+[?]$/
+    LOWER  = /^[a-z_]+$/
+    LOWER1 = /^[a-z_]+!$/
+    LOWER2 = /^[a-z_]+[?]$/
+    WORD   = /^\w+$/
+    WORD1  = /^\w+!$/
+    WORD2  = /^\w+[?]$/
+
     using Refinements
 
     def self.validate_kv(k,v)
-      raise 'unrecognized key' unless k.key_symbol?
+      raise   'unrecognized item symbol'    unless k.item_symbol?
       case k
-      when /^[A-Z_]+$/ # CAPS
-        raise 'unrecognized array' unless v.key_array?
-      when /^[a-z_]+$/ # lower
-        raise 'unrecognized hash' unless v.key_hash?
-      when /^\w+$/ # Camel
-        raise 'unrecognized item' unless v.key_item?
-      when /^[A-Z_]+!$/ # CAPS!
-        raise 'unrecognized explicit array' unless v.key_explicit_array?
-      when /^[a-z_]+!$/ # lower!
-        raise 'unrecognized symbolic array' unless v.key_symbolic_array?
-      when /^\w+!$/ # Camel!
-        raise 'unrecognized items' unless v.key_items?
-      when /^\w+[?]$/ # Any?
-        raise 'unrecognized boolean' unless v.key_boolean?
+      when LOWER  # abc
+        raise 'unrecognized item hash'      unless v.item_hash? or
+                                           (v.is_a?Symbol and LOWER.match?v)
+      when CAPS   # ABC
+        raise 'unrecognized item array'     unless v.item_array?
+      when WORD   # Abc
+        raise 'unrecognized item'           unless v.item?
+      when LOWER1 # abc!
+        raise 'unrecognized bang array'     unless v.item_bang_array?
+      when CAPS1  # ABC!
+        raise 'unrecognized explicit array' unless v.item_explicit_array?
+      when WORD1  # Abc!
+        raise 'unrecognized items'          unless v.items?
+      when LOWER2 # abc?
+        raise 'unrecognized boolean'        unless v.item_boolean?
+      when CAPS2  # ABC?
+        raise 'unrecognized nil|boolean'    unless v.nil? or v.item_boolean?
+      when WORD2  # Abc?
+        raise 'unrecognized nil|item'       unless v.nil? or v.item?
       else
         raise 'should not happen'
       end
