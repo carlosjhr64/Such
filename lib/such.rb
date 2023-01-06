@@ -1,5 +1,5 @@
 module Such
-  VERSION = '2.0.230105'
+  VERSION = '2.0.230106'
   require 'such/such'
   autoload :Convention, 'such/convention.rb'
   autoload :Thing,      'such/thing.rb'

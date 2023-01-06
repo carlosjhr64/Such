@@ -1,6 +1,6 @@
 # Such
 
-* [VERSION 2.0.230105](https://github.com/carlosjhr64/such/releases)
+* [VERSION 2.0.230106](https://github.com/carlosjhr64/such/releases)
 * [github](https://www.github.com/carlosjhr64/such)
 * [rubygems](https://rubygems.org/gems/such)
 
@@ -12,13 +12,10 @@ Can be used to wrap any class with the alternate constructor,
 although targeted only Gtk3 widgets.
 
 ## INSTALL:
-
 ```shell
-$ sudo gem install such
+$ gem install such
 ```
-
 ## SYNOPSIS:
-
 ```ruby
 require 'gtk3'
 require 'such'
@@ -38,13 +35,11 @@ window.show_all
 
 Gtk.main #=> nil
 ```
-
 ## MORE:
 
-Arrays are passed to constructer's super,
+Arrays are passed to constructor's super,
 Hashes are method=>arguments pairs, and Strings are signals.
 Other objects are assumed to be containers:
-
 ```ruby
 Such::Button.new(
   window,
@@ -60,17 +55,13 @@ window.add button
 button.set_size_request 100, 50
 button.signal_connect('clicked'){puts 'OK'}
 ```
-
 To set the packing method to say `:pack_start`, set the `:into` method as follows:
-
 ```ruby
 {into: [:pack_start, expand:false, fill:false, padding:0]}
-# The effect in the contructor will be as if the following was run:
+# The effect in the constructor will be as if the following was run:
 #   container.pack_start(self, expand:false, fill:false, padding:0)
 ```
-
 One can configure Symbol keys to represent metadata about a widget:
-
 ```ruby
    Thing.configure(
      KEY: [ arg1, arg2, arg3 ], # an array for super(arg1, arg2, arg3)
@@ -82,8 +73,7 @@ One can configure Symbol keys to represent metadata about a widget:
      key!: [[arg1, arg2], {meth1:args1, meth2:args2}, 'signal1', 'signal2'] # the splatter bang!
    )
 ```
-
-The examples in this repository are reworks of the examples given in
+Many examples in this repository are reworks of the examples given in
 ZetCode.com[http://zetcode.com/gui/rubygtk/] (back in 2015).
 
 ## Features:
@@ -93,13 +83,20 @@ ZetCode.com[http://zetcode.com/gui/rubygtk/] (back in 2015).
 * Missing signal assumed to be 'clicked'
 * Heuristics on when one wants to iterate a method over the arguments given
 * Packing method defaults (ultimately) to :add
-* Way to change default packing behaviour
+* Way to change default packing behavior
 
 ## But wait!  One more thing:
 
 See [such_parts_demo](examples/such_parts_demo) in the examples directory
-and [tc_part](test/tc_part) for hints on how to use the powerful
+and [tc_part](test/tc_part) for hints on how to use
 [Such::Part module](lib/such/part.rb).
+
+See also [tc_convention](test/tc_convention) in the test directory
+for a suggested convention for naming keys.
+
+## Gnarly!
+
+Yes, I know!
 
 ## LICENSE:
 
