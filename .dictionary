@@ -13,7 +13,6 @@ ArgumentError
 attr
 accessor
 autoload
-behaviour
 carlosjhr
 CarlosJHR
 eval
@@ -24,9 +23,7 @@ conf
 config
 const
 const
-constructer
 const
-contructor
 def
 config
 downcase
@@ -58,8 +55,8 @@ rubygtk
 submenu
 stderr
 sublicense
-sudo
 sym
+tc
 tc
 sym
 TrueClass
